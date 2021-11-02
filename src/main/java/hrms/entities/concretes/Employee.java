@@ -1,13 +1,11 @@
 package hrms.entities.concretes;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
@@ -30,8 +28,7 @@ public class Employee extends User{
     @Column(name = "id")
     private int id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn(name = "user_id", referencedColumnName = "id")
+    @ManyToOne
     private User user;
 
     @NotEmpty(message = "First name cannot be empty.")

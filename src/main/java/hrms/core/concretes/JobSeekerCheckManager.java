@@ -1,6 +1,7 @@
 package hrms.core.concretes;
 
-import hrms.core.abstracts.JobSeekerCheckService;
+import hrms.core.adapters.abstracts.JobSeekerCheckService;
+import hrms.core.utils.results.Result;
 import hrms.entities.concretes.JobSeeker;
 
 public class JobSeekerCheckManager implements JobSeekerCheckService {
@@ -12,7 +13,7 @@ public class JobSeekerCheckManager implements JobSeekerCheckService {
     }
 
     @Override
-    public boolean checkIfRealPerson(JobSeeker jobSeeker) {
+    public Result checkIfRealPerson(JobSeeker jobSeeker) throws Exception {
         return this.jobSeekerCheckService.checkIfRealPerson(jobSeeker);
     }
 
