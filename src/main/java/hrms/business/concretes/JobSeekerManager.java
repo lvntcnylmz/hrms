@@ -9,7 +9,7 @@ import hrms.core.utils.results.DataResult;
 import hrms.core.utils.results.Result;
 import hrms.core.utils.results.SuccessDataResult;
 import hrms.core.utils.results.SuccessResult;
-import hrms.dataAccess.JobSeekerDao;
+import hrms.dataAccess.abstracts.JobSeekerDao;
 import hrms.entities.concretes.JobSeeker;
 
 @Service

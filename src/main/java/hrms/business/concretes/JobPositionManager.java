@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import hrms.business.abstracts.JobPositionsService;
-import hrms.dataAccess.JobPositionDao;
+import hrms.dataAccess.abstracts.JobPositionDao;
 import hrms.entities.concretes.JobPosition;
 
 @Service
