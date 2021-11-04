@@ -7,10 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,14 +26,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private int id;
+    private int user_id;
 
-    @Email(message = "Email field cannot be empty.")
-    @NotEmpty
-    @Column(name = "email")
+    @Email
+    @NotNull(message = "Email field cannot be empty.")
+    @Column(name = "email", unique = true)
     private String email;
 
-    @NotEmpty
+    @NotNull(message = "Password cannot be empty.")
     @Column(name = "password")
     private String password;
 

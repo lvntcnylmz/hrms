@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -19,20 +19,20 @@ import lombok.NoArgsConstructor;
 @Table(name = "JobSeekers")
 public class JobSeeker extends User{
 
-    @NotEmpty(message = "First name cannot be empty.")
+    @NotNull(message = "First name cannot be empty.")
     @Column
     private String firstName;
 
-    @NotEmpty(message = "Last name cannot be empty.")
+    @NotNull(message = "Last name cannot be empty.")
     @Column
     private String lastName;
 
-    @NotEmpty(message = "National ID cannot be empty.")
+    @NotNull(message = "National ID cannot be empty.")
     @Size(min = 11, max = 11)
     @Column(unique = true)
     private String nationalId;
 
-    @NotEmpty(message = "Date of birth cannot be empty. e.g.: 2004")
+    @NotNull(message = "Date of birth cannot be empty. e.g.: 2004")
     @Column
     private String dateOfBirth;
 

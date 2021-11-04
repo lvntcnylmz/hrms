@@ -2,6 +2,7 @@ package hrms.business.concretes;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import hrms.business.abstracts.JobSeekerService;
@@ -17,6 +18,7 @@ public class JobSeekerManager implements JobSeekerService {
 
     private JobSeekerDao jobSeekerDao;
 
+    @Autowired
     public JobSeekerManager(JobSeekerDao jobSeekerDao) {
         this.jobSeekerDao = jobSeekerDao;
     }
@@ -24,7 +26,7 @@ public class JobSeekerManager implements JobSeekerService {
     @Override
     public Result add(JobSeeker jobSeeker) {
         this.jobSeekerDao.save(jobSeeker);
-        return new SuccessResult();
+        return new SuccessResult("Position added.");
     }
 
     @Override

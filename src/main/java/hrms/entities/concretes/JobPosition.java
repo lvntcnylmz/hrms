@@ -6,15 +6,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 @Table(name = "JobPositions")
 public class JobPosition {
     
@@ -23,7 +24,8 @@ public class JobPosition {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "title")
+    @NotNull(message = "Title cannot be null.")
+    @Column(name = "title", unique = true)
     private String title;
 
 }
