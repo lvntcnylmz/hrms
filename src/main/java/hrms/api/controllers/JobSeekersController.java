@@ -28,7 +28,7 @@ public class JobSeekersController {
     }
 
     @PostMapping("/add")
-    public Result add(@RequestBody JobSeeker jobSeeker){
+    public Result add(@RequestBody JobSeeker jobSeeker) throws Exception{
         return this.jobSeekerService.add(jobSeeker);
     }
 
