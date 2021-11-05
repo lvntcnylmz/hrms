@@ -10,7 +10,7 @@ import hrms.core.utils.Business.BusinessRules;
 import hrms.core.utils.results.DataResult;
 import hrms.core.utils.results.Result;
 import hrms.core.utils.results.SuccessDataResult;
-import hrms.core.verifications.MernisVerification;
+import hrms.core.verifications.concretes.MernisVerification;
 import hrms.dataAccess.abstracts.JobSeekerDao;
 import hrms.entities.concretes.JobSeeker;
 
