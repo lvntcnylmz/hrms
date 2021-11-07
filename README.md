@@ -13,4 +13,4 @@ Backend project of human resource management system.. This project strictly impl
 * Layered Architecture (Core, Entity, DataAccess, Business, API)
 
 ### Database Diagram ### 
-![hrms_database](https://user-images.githubusercontent.com/19970595/139589746-e3a045d4-ddf6-4db3-b31b-b21229d2069d.jpg)
+![database](https://user-images.githubusercontent.com/19970595/140652653-ad529d88-f652-48f1-a2aa-92b98707de41.png)
