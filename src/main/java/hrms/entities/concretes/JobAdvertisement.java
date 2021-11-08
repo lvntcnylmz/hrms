@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,7 +28,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(name = "OpenPositions")
+@Table(name = "JobAdvertisements")
 public class JobAdvertisement {
     
     @Id
@@ -40,13 +41,13 @@ public class JobAdvertisement {
     @JoinColumn(name = "job_id")
     private JobPosition jobPosition;
 
-    @NotNull(message = "Description cannot be null.")
+    @NotNull(message = "Description cannot be null.")   
     @Column(name = "description")
     private String description;
 
     @NotNull(message = "City cannot be null.")
     @ManyToOne
-    @JoinColumn(name = "city_id", referencedColumnName = "city_id")
+    @JoinColumn(name = "city_id")
     private City city;
 
     @Column(name = "min_salary")
@@ -55,16 +56,20 @@ public class JobAdvertisement {
     @Column(name = "max_salary")
     private int maxSalary;
 
-    @DateTimeFormat(iso = ISO.DATE_TIME)
-    //@JsonFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(iso = ISO.DATE)
+    @JsonFormat(pattern = "dd/MM/yyyy")
     @Column(name = "application_deadline")
     private LocalDateTime applicationDeadline;
-
+    
+    //@JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Employer employer;
 
+    @Column(name = "number_of_open_position")
+    private Integer numberOfOpenPosition;
+
     @Column(name = "status")
-    private boolean isActive;
+    private boolean status;
 
 }

@@ -10,6 +10,7 @@ import hrms.core.utils.results.Result;
 import hrms.core.utils.results.SuccessDataResult;
 import hrms.dataAccess.abstracts.JobAdvertisementDao;
 import hrms.entities.concretes.JobAdvertisement;
+import hrms.entities.dtos.JobAdvertisementDto;
 
 @Service
 public class JobAdvertisementManager implements JobAdvertisementService {
@@ -22,12 +23,27 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 
     @Override
     public Result add(JobAdvertisement jobAdvertisement) {
-        return new SuccessDataResult<JobAdvertisement>(this.jobAdvertisementDao.save(jobAdvertisement), "Open position added.");
+        return new SuccessDataResult<JobAdvertisement>(this.jobAdvertisementDao.save(jobAdvertisement), "Added.");
     }
 
     @Override
-    public DataResult<List<JobAdvertisement>> getAll() {
-        return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.findAll(), "Open positions have been listed.");
+    public DataResult<List<JobAdvertisementDto>> getAllAdvertisement() {
+        return new SuccessDataResult<List<JobAdvertisementDto>>(this.jobAdvertisementDao.findAllAdvertisement(), "Listed.");
+    }
+
+    @Override
+    public DataResult<List<JobAdvertisementDto>> getByJobStatus() {
+        return new SuccessDataResult<List<JobAdvertisementDto>>(this.jobAdvertisementDao.findByStatus(), "Listed.");
+    }
+
+    @Override
+    public DataResult<List<JobAdvertisementDto>> getByDate() {
+        return new SuccessDataResult<List<JobAdvertisementDto>>(this.jobAdvertisementDao.findByDate(), "Listed");
+    }
+
+    @Override
+    public DataResult<List<JobAdvertisementDto>> getByCompanyName(String companyName) {
+       return new SuccessDataResult<List<JobAdvertisementDto>>(this.jobAdvertisementDao.findByCompany(companyName), "Listed");
     }
     
 }
