@@ -61,7 +61,6 @@ public class JobAdvertisement {
     @Column(name = "application_deadline")
     private LocalDateTime applicationDeadline;
     
-    //@JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Employer employer;
