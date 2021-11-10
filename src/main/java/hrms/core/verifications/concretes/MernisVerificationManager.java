@@ -12,7 +12,7 @@ import hrms.entities.concretes.JobSeeker;
 import tr.gov.nvi.tckimlik.WS.KPSPublicSoapProxy;
 
 @Service
-public class MernisVerification implements MernisVerificationService {
+public class MernisVerificationManager implements MernisVerificationService {
 
     @Override
     public Result checkIfRealPerson(JobSeeker jobSeeker) throws NumberFormatException, RemoteException {

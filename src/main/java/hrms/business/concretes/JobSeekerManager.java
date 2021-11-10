@@ -10,7 +10,7 @@ import hrms.core.utils.Business.BusinessRules;
 import hrms.core.utils.results.DataResult;
 import hrms.core.utils.results.Result;
 import hrms.core.utils.results.SuccessDataResult;
-import hrms.core.verifications.concretes.MernisVerification;
+import hrms.core.verifications.concretes.MernisVerificationManager;
 import hrms.dataAccess.abstracts.JobSeekerDao;
 import hrms.entities.concretes.JobSeeker;
 
@@ -18,18 +18,18 @@ import hrms.entities.concretes.JobSeeker;
 public class JobSeekerManager implements JobSeekerService {
 
     private JobSeekerDao jobSeekerDao;
-    private MernisVerification mernisVerification;
+    private MernisVerificationManager mernisVerificationManager;
 
     @Autowired
-    public JobSeekerManager(JobSeekerDao jobSeekerDao, MernisVerification mernisVerification) {
+    public JobSeekerManager(JobSeekerDao jobSeekerDao, MernisVerificationManager mernisVerificationManager) {
         this.jobSeekerDao = jobSeekerDao;
-        this.mernisVerification = mernisVerification;
+        this.mernisVerificationManager = mernisVerificationManager;
     }
 
     @Override
     public Result add(JobSeeker jobSeeker) throws Exception {
         
-        Result result = BusinessRules.Run(this.mernisVerification.checkIfRealPerson(jobSeeker));
+        Result result = BusinessRules.Run(this.mernisVerificationManager.checkIfRealPerson(jobSeeker));
 
         if (result != null) {
             return result;
