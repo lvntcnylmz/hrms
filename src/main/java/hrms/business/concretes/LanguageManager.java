@@ -10,12 +10,12 @@ import hrms.dataAccess.abstracts.LanguageDao;
 import hrms.entities.concretes.Language;
 
 @Service
-public class LanguageManger implements LanguageService {
+public class LanguageManager implements LanguageService {
 
     private LanguageDao languageDao;
 
     @Autowired
-    public LanguageManger(LanguageDao languageDao) {
+    public LanguageManager(LanguageDao languageDao) {
         this.languageDao = languageDao;
     }
 

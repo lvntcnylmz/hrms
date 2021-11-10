@@ -2,6 +2,7 @@ package hrms.api.controllers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,11 +18,12 @@ import hrms.entities.concretes.City;
 @RestController
 @CrossOrigin
 @RequestMapping("api/cities")
-public class CititesController {
+public class CitiesController {
     
     private CityService cityService;
 
-    public CititesController(CityService cityService) {
+    @Autowired
+    public CitiesController(CityService cityService) {
         this.cityService = cityService;
     }
 

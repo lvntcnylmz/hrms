@@ -23,7 +23,7 @@ public class ContactsController {
         this.contactService = contactService;
     }
 
-    @GetMapping("add")
+    @GetMapping("/add")
     public Result add(@RequestBody Contact contact){
         return this.contactService.add(contact);
     }

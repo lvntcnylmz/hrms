@@ -32,7 +32,7 @@ public class City {
 
     @Column(name = "city_name")
     private String cityName;
-
+    
     @OneToMany(mappedBy = "city", fetch = FetchType.LAZY)
     private List<JobAdvertisement> openPositions;
 
