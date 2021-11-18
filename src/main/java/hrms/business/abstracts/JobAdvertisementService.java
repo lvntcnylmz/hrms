@@ -19,4 +19,6 @@ public interface JobAdvertisementService {
 
     DataResult<List<JobAdvertisementDto>> getByCompanyName(String companyName);
 
+    DataResult<List<JobAdvertisementDto>> getJobById(int jobId);
+
 }

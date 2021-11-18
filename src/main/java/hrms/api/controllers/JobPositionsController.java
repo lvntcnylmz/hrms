@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import hrms.business.abstracts.JobPositionsService;
@@ -36,4 +37,10 @@ public class JobPositionsController {
     public DataResult<List<JobPosition>> getAll(){
         return this.jobPositionsService.getAll();
     }
+
+    @GetMapping("/getById")
+    public DataResult<List<JobPosition>> getById(@RequestParam int jobId){
+        return this.jobPositionsService.getById(jobId);
+    }
+
 }

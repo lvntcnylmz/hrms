@@ -53,4 +53,9 @@ public class JobAdvertisementsController {
         return this.jobAdvertisementService.getByCompanyName(companyName);
     }
 
+    @GetMapping("/getByJobId")
+    public DataResult<List<JobAdvertisementDto>> getByJobId(@RequestParam int jobId){
+        return this.jobAdvertisementService.getJobById(jobId);
+    }
+
 }
