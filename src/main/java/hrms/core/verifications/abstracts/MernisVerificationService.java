@@ -5,5 +5,5 @@ import hrms.entities.concretes.JobSeeker;
 
 public interface MernisVerificationService {
     
-    public Result checkIfRealPerson(JobSeeker jobSeeker) throws Exception;
+    public Result checkIfRealPerson(JobSeeker jobSeeker);
 }
