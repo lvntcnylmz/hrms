@@ -2,7 +2,10 @@ package hrms.api.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import hrms.business.abstracts.JobSeekerService;
 import hrms.core.utils.results.DataResult;
-import hrms.core.utils.results.Result;
 import hrms.entities.concretes.JobSeeker;
 
 @RestController
@@ -28,8 +30,8 @@ public class JobSeekersController {
     }
 
     @PostMapping("/add")
-    public Result add(@RequestBody JobSeeker jobSeeker) throws Exception{
-        return this.jobSeekerService.add(jobSeeker);
+    public ResponseEntity<?> add(@Valid @RequestBody JobSeeker jobSeeker) throws Exception{
+        return ResponseEntity.ok(this.jobSeekerService.add(jobSeeker));
     }
 
     @GetMapping("/getAll")
