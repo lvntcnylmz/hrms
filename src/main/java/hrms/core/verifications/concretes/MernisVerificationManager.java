@@ -1,7 +1,5 @@
 package hrms.core.verifications.concretes;
 
-import java.rmi.RemoteException;
-
 import org.springframework.stereotype.Service;
 
 import hrms.core.utils.results.ErrorResult;
