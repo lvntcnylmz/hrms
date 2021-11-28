@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import hrms.core.utils.results.ErrorDataResult;
 
 @ControllerAdvice
-public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
+public class GeneralExceptionHandler /*extends ResponseEntityExceptionHandler*/ {
     
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -31,9 +31,9 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
         return errors;
     } 
 
-    @ExceptionHandler
-    public ResponseEntity<?> userNotFoundException(UserNotFoundException exception){
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
-    }
+    // @ExceptionHandler
+    // public ResponseEntity<?> userNotFoundException(UserNotFoundException exception){
+    //     return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    // }
 
 }
