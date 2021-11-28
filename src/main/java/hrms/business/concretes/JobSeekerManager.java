@@ -33,11 +33,11 @@ public class JobSeekerManager implements JobSeekerService {
     @Override
     public Result add(JobSeeker jobSeeker) {
         
-         Result result = BusinessRules.Run(this.mernisVerificationManager.checkIfRealPerson(jobSeeker));
+        //  Result result = BusinessRules.Run(this.mernisVerificationManager.checkIfRealPerson(jobSeeker));
 
-         if (result != null) {
-             return result;
-         }
+        //  if (result != null) {
+        //      return result;
+        //  }
         //String encodedPassword = this.passwordEncoder.encode(jobSeeker.getPassword());
         //jobSeeker.setPassword(encodedPassword);
         return new SuccessDataResult<JobSeeker>(this.jobSeekerDao.save(jobSeeker), "The information is valid. User added. ");

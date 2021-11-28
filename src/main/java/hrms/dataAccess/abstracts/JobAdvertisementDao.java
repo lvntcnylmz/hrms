@@ -10,24 +10,24 @@ import hrms.entities.dtos.JobAdvertisementDto;
 
 public interface JobAdvertisementDao extends JpaRepository<JobAdvertisement, Integer> {
 
-    @Query("Select new hrms.entities.dtos.JobAdvertisementDto(ja.id, p.id, e.companyName, p.title, ja.status, ja.applicationDeadline, ja.numberOfOpenPosition)" +
-        "From JobAdvertisement ja Inner Join ja.employer e Inner Join ja.jobPosition p Where status=true")
+    @Query("Select new hrms.entities.dtos.JobAdvertisementDto(ja.id, p.id, e.companyName, p.title, ja.status, ja.applicationDeadline, ja.numberOfOpenPosition, c.cityName)" +
+        "From JobAdvertisement ja Inner Join ja.employer e Inner Join ja.jobPosition p Inner Join ja.city c Where status=true")
     List<JobAdvertisementDto> findByStatus();
 
-    @Query("Select new hrms.entities.dtos.JobAdvertisementDto(ja.id, p.id, e.companyName, p.title, ja.status, ja.applicationDeadline, ja.numberOfOpenPosition)" + 
-        "From  JobAdvertisement ja Inner Join ja.employer e Inner Join ja.jobPosition p Order By ja.applicationDeadline ASC")
+    @Query("Select new hrms.entities.dtos.JobAdvertisementDto(ja.id, p.id, e.companyName, p.title, ja.status, ja.applicationDeadline, ja.numberOfOpenPosition, c.cityName)" + 
+        "From  JobAdvertisement ja Inner Join ja.employer e Inner Join ja.jobPosition p Inner Join ja.city c Order By ja.applicationDeadline ASC")
     List<JobAdvertisementDto> findByDate();
 
-    @Query("Select new hrms.entities.dtos.JobAdvertisementDto(ja.id, p.id, e.companyName, p.title, ja.status, ja.applicationDeadline, ja.numberOfOpenPosition)" + 
-        "From  JobAdvertisement ja Inner Join ja.employer e Inner Join ja.jobPosition p Where Lower(e.companyName) like lower(concat('%', ?1,'%'))")
+    @Query("Select new hrms.entities.dtos.JobAdvertisementDto(ja.id, p.id, e.companyName, p.title, ja.status, ja.applicationDeadline, ja.numberOfOpenPosition, c.cityName)" + 
+        "From  JobAdvertisement ja Inner Join ja.employer e Inner Join ja.jobPosition p Inner Join ja.city c Where Lower(e.companyName) like lower(concat('%', ?1,'%'))")
     List<JobAdvertisementDto> findByCompany(String companyName);
 
-    @Query("Select new hrms.entities.dtos.JobAdvertisementDto(ja.id, p.id, e.companyName, p.title, ja.status, ja.applicationDeadline, ja.numberOfOpenPosition)" + 
-    "From  JobAdvertisement ja Inner Join ja.employer e Inner Join ja.jobPosition p")
+    @Query("Select new hrms.entities.dtos.JobAdvertisementDto(ja.id, p.id, e.companyName, p.title, ja.status, ja.applicationDeadline, ja.numberOfOpenPosition, c.cityName)" + 
+    "From  JobAdvertisement ja Inner Join ja.employer e Inner Join ja.jobPosition p Inner Join ja.city c")
     List<JobAdvertisementDto> findAllAdvertisement();
 
-    @Query("Select new hrms.entities.dtos.JobAdvertisementDto(ja.id, p.id, e.companyName, p.title, ja.status, ja.applicationDeadline, ja.numberOfOpenPosition)" + 
-        "From  JobAdvertisement ja Inner Join ja.employer e Inner Join ja.jobPosition p Where p.id=:jobId")
+    @Query("Select new hrms.entities.dtos.JobAdvertisementDto(ja.id, p.id, e.companyName, p.title, ja.status, ja.applicationDeadline, ja.numberOfOpenPosition, c.cityName)" + 
+        "From  JobAdvertisement ja Inner Join ja.employer e Inner Join ja.jobPosition p Inner Join ja.city c Where p.id=:jobId")
     List<JobAdvertisementDto> findJobById(int jobId);
 
 }

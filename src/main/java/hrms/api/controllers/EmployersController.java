@@ -24,11 +24,13 @@ public class EmployersController {
 
     @Autowired
     public EmployersController(EmployerService employerService) {
+
         this.employerService = employerService;
     }
 
     @PostMapping("/add")
     public Result add(@RequestBody Employer employer){
+
         return this.employerService.add(employer);
     }
 

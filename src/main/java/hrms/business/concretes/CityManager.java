@@ -3,6 +3,7 @@ package hrms.business.concretes;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import hrms.business.abstracts.CityService;
@@ -31,5 +32,10 @@ public class CityManager implements CityService {
     public DataResult<List<City>> getAll() {
         return new SuccessDataResult<List<City>>(this.cityDao.findAll(), "All cities listed.");
     }
-    
+
+    @Override
+    public DataResult<City> getCityById(int id) {
+        return new SuccessDataResult<City>(this.cityDao.findCityById(id), "City Found");
+    }
+
 }

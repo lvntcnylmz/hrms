@@ -11,12 +11,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class JobAdvertisementDto {
     
-    private int Id;
+    private int id;
     private int jobId;
     private String companyName;
     private String jobTitle;
     private Boolean jobStatus;
     private LocalDateTime applicationDeadline;
-    private Integer numberOfOpenPosition;   
+    private Integer numberOfOpenPosition;
+    private String cityName;   
 
 }

@@ -12,4 +12,5 @@ public interface CityService {
 
     DataResult<List<City>> getAll();
  
+    DataResult<City> getCityById(int id);
 }
