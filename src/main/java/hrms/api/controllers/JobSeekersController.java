@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import hrms.business.abstracts.JobSeekerService;
 import hrms.core.utils.results.DataResult;
 import hrms.entities.concretes.JobSeeker;
-import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.Jwts;
 
 @RestController
 @CrossOrigin
@@ -33,10 +31,7 @@ public class JobSeekersController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@Valid @RequestBody JobSeeker jobSeeker, @RequestHeader(name = "Authorization") String auth) throws Exception{
-        String token = auth.substring(7);
-        JwtParser parser = Jwts.parser().setSigningKey("my-app-secret");
-        parser.parse(token);
+    public ResponseEntity<?> add(@Valid @RequestBody JobSeeker jobSeeker){
         return ResponseEntity.ok(this.jobSeekerService.add(jobSeeker));
     }
 

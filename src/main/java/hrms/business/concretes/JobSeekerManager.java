@@ -20,13 +20,13 @@ import hrms.entities.concretes.JobSeeker;
 public class JobSeekerManager implements JobSeekerService {
 
     private JobSeekerDao jobSeekerDao;
-    private MernisVerificationManager mernisVerificationManager;
+    //private MernisVerificationManager mernisVerificationManager;
     //private PasswordEncoder passwordEncoder;
 
     @Autowired
     public JobSeekerManager(JobSeekerDao jobSeekerDao, MernisVerificationManager mernisVerificationManager) {
         this.jobSeekerDao = jobSeekerDao;
-        this.mernisVerificationManager = mernisVerificationManager;
+        //this.mernisVerificationManager = mernisVerificationManager;
         //this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
