@@ -21,7 +21,7 @@ public class ContactManager implements ContactService {
 
     @Override
     public Result add(Contact contact) {
-        return new SuccessDataResult<Contact>(this.contactDao.save(contact), "Saved");
+        return new SuccessDataResult<Contact>(this.contactDao.save(contact), "Contact information is saved.");
     }
     
 }

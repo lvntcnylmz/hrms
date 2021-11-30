@@ -40,7 +40,7 @@ public class JobSeekerManager implements JobSeekerService {
         //  }
         //String encodedPassword = this.passwordEncoder.encode(jobSeeker.getPassword());
         //jobSeeker.setPassword(encodedPassword);
-        return new SuccessDataResult<JobSeeker>(this.jobSeekerDao.save(jobSeeker), "The information is valid. User added. ");
+        return new SuccessDataResult<JobSeeker>(this.jobSeekerDao.save(jobSeeker), "The information is valid. User was saved.");
     }
 
     @Override

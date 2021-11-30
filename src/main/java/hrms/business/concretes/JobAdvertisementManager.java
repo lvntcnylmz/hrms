@@ -23,32 +23,32 @@ public class JobAdvertisementManager implements JobAdvertisementService {
 
     @Override
     public Result add(JobAdvertisement jobAdvertisement) {
-        return new SuccessDataResult<JobAdvertisement>(this.jobAdvertisementDao.save(jobAdvertisement), "Added.");
+        return new SuccessDataResult<JobAdvertisement>(this.jobAdvertisementDao.save(jobAdvertisement), "Job advertisement was saved.");
     }
 
     @Override
     public DataResult<List<JobAdvertisementDto>> getAllAdvertisement() {
-        return new SuccessDataResult<List<JobAdvertisementDto>>(this.jobAdvertisementDao.findAllAdvertisement(), "Listed.");
+        return new SuccessDataResult<List<JobAdvertisementDto>>(this.jobAdvertisementDao.findAllAdvertisement(), "Job advertisement listed.");
     }
 
     @Override
     public DataResult<List<JobAdvertisementDto>> getByJobStatus() {
-        return new SuccessDataResult<List<JobAdvertisementDto>>(this.jobAdvertisementDao.findByStatus(), "Listed.");
+        return new SuccessDataResult<List<JobAdvertisementDto>>(this.jobAdvertisementDao.findByStatus(), "Job advertisement listed.");
     }
 
     @Override
     public DataResult<List<JobAdvertisementDto>> getByDate() {
-        return new SuccessDataResult<List<JobAdvertisementDto>>(this.jobAdvertisementDao.findByDate(), "Listed");
+        return new SuccessDataResult<List<JobAdvertisementDto>>(this.jobAdvertisementDao.findByDate(), "Job advertisement listed.");
     }
 
     @Override
     public DataResult<List<JobAdvertisementDto>> getByCompanyName(String companyName) {
-       return new SuccessDataResult<List<JobAdvertisementDto>>(this.jobAdvertisementDao.findByCompany(companyName), "Listed");
+       return new SuccessDataResult<List<JobAdvertisementDto>>(this.jobAdvertisementDao.findByCompany(companyName), "Job advertisement listed.");
     }
 
     @Override
     public DataResult<List<JobAdvertisementDto>> getJobById(int jobId) {
-        return new SuccessDataResult<List<JobAdvertisementDto>>(this.jobAdvertisementDao.findJobById(jobId), "Listed");
+        return new SuccessDataResult<List<JobAdvertisementDto>>(this.jobAdvertisementDao.findJobById(jobId), "Job advertisement listed.");
     }
     
 }

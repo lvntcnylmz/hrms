@@ -24,12 +24,12 @@ public class ResumeManager implements ResumeService {
 
     @Override
     public Result add(Resume resume) {
-        return new SuccessDataResult<Resume>(this.resumeDao.save(resume), "Saved");
+        return new SuccessDataResult<Resume>(this.resumeDao.save(resume), "Resume was saved.");
     }
 
     @Override
     public DataResult<List<Resume>> getAll() {
-        return new SuccessDataResult<List<Resume>>(this.resumeDao.findAll(), "Listed");
+        return new SuccessDataResult<List<Resume>>(this.resumeDao.findAll(), "Resumes are listed.");
     }
     
 }

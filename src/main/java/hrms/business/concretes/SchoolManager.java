@@ -24,12 +24,12 @@ public class SchoolManager implements SchoolService {
 
     @Override
     public Result add(School school) {
-        return new SuccessDataResult<School>(this.schoolDao.save(school), "Saved");
+        return new SuccessDataResult<School>(this.schoolDao.save(school), "School information was saved.");
     }
 
     @Override
     public DataResult<List<School>> getAll() {
-        return new SuccessDataResult<List<School>>(this.schoolDao.findAll(), "Listed");
+        return new SuccessDataResult<List<School>>(this.schoolDao.findAll(), "Schools are listed.");
     }
     
 }

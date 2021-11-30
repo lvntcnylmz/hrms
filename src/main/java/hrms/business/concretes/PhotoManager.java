@@ -27,7 +27,7 @@ public class PhotoManager implements PhotoService {
     @Override
     public Result add(Photo photo) throws IOException {
         this.cloudinaryAdapterManager.uploadPhoto(photo.getPhotoURL());
-        return new SuccessDataResult<Photo>(this.photoDao.save(photo), "Saved");
+        return new SuccessDataResult<Photo>(this.photoDao.save(photo), "Photo was uploaded.");
     }
     
 }

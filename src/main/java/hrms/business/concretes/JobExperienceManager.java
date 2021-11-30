@@ -24,12 +24,12 @@ public class JobExperienceManager implements JobExperienceService {
 
     @Override
     public Result add(JobExperience jobExperience) {
-        return new SuccessDataResult<JobExperience>(this.jobExperienceDao.save(jobExperience), "Saved");
+        return new SuccessDataResult<JobExperience>(this.jobExperienceDao.save(jobExperience), "Job experience was saved.");
     }
 
     @Override
     public DataResult<List<JobExperience>> getAll() {
-        return new SuccessDataResult<List<JobExperience>>(this.jobExperienceDao.findAll(), "Listed");
+        return new SuccessDataResult<List<JobExperience>>(this.jobExperienceDao.findAll(), "Job experiences are listed");
     }
     
 }

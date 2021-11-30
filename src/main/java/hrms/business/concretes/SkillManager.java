@@ -19,7 +19,7 @@ public class SkillManager implements SkillService {
 
     @Override
     public Result add(Skill skill) {
-        return new SuccessDataResult<Skill>(this.skillDao.save(skill), "Saved");
+        return new SuccessDataResult<Skill>(this.skillDao.save(skill), "Skill was saved.");
     }
     
 }

@@ -37,7 +37,7 @@ public class EmployerManager implements EmployerService {
             return result;
         }
 
-        return new SuccessDataResult<Employer>(this.employerDao.save(employer), "Employer has added.");
+        return new SuccessDataResult<Employer>(this.employerDao.save(employer), "Employer information was saved.");
     }
 
     @Override

@@ -21,7 +21,7 @@ public class LanguageManager implements LanguageService {
 
     @Override
     public Result add(Language language) {
-        return new SuccessDataResult<Language>(this.languageDao.save(language), "Saved");
+        return new SuccessDataResult<Language>(this.languageDao.save(language), "Language was saved.");
     }
     
 }
