@@ -1,8 +1,7 @@
 package hrms.api.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import hrms.business.abstracts.SchoolService;
-import hrms.core.utils.results.DataResult;
-import hrms.core.utils.results.Result;
 import hrms.entities.concretes.School;
 
 @RestController
@@ -28,13 +25,13 @@ public class SchoolsController {
     }
 
     @PostMapping("/add")
-    public Result add(@RequestBody School school){
-        return this.schoolService.add(school);
+    public ResponseEntity<?> add(@RequestBody School school){
+        return ResponseEntity.ok(this.schoolService.add(school)); 
     }
 
     @GetMapping("/getAll")
-    public DataResult<List<School>> getAll(){
-        return this.schoolService.getAll();
+    public ResponseEntity<?> getAll(){
+        return ResponseEntity.ok(this.schoolService.getAll()); 
     }
 
 }

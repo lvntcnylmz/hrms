@@ -2,6 +2,7 @@ package hrms.api.controllers;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,33 +30,33 @@ public class JobAdvertisementsController {
     }
 
     @PostMapping("/add")
-    public Result add(@RequestBody JobAdvertisement jobAdvertisement){
-        return this.jobAdvertisementService.add(jobAdvertisement);
+    public ResponseEntity<?> add(@RequestBody JobAdvertisement jobAdvertisement){
+        return ResponseEntity.ok(this.jobAdvertisementService.add(jobAdvertisement));
     }
 
     @GetMapping("/getAll")
-    public DataResult<List<JobAdvertisementDto>> getAllAdvertisement(){
-        return this.jobAdvertisementService.getAllAdvertisement();
+    public ResponseEntity<?> getAllAdvertisement(){
+        return ResponseEntity.ok(this.jobAdvertisementService.getAllAdvertisement());
     }
     
     @GetMapping("/getByJobStatus")
-    public DataResult<List<JobAdvertisementDto>> getByJobStatus(){
-        return this.jobAdvertisementService.getByJobStatus();
+    public ResponseEntity<?> getByJobStatus(){
+        return ResponseEntity.ok(this.jobAdvertisementService.getByJobStatus());
     }
 
     @GetMapping("/getByDate")
-    public DataResult<List<JobAdvertisementDto>> getByDate(){
-        return this.jobAdvertisementService.getByDate();
+    public ResponseEntity<?> getByDate(){
+        return ResponseEntity.ok(this.jobAdvertisementService.getByDate());
     }
 
     @GetMapping("/getByCompany")
-    public DataResult<List<JobAdvertisementDto>> getByCompany(@RequestParam String companyName){
-        return this.jobAdvertisementService.getByCompanyName(companyName);
+    public ResponseEntity<?> getByCompany(@RequestParam String companyName){
+        return ResponseEntity.ok(this.jobAdvertisementService.getByCompanyName(companyName));
     }
 
     @GetMapping("/getByJobId")
-    public DataResult<List<JobAdvertisementDto>> getByJobId(@RequestParam int jobId){
-        return this.jobAdvertisementService.getJobById(jobId);
+    public ResponseEntity<?> getByJobId(@RequestParam int jobId){
+        return ResponseEntity.ok(this.jobAdvertisementService.getJobById(jobId));
     }
 
 }

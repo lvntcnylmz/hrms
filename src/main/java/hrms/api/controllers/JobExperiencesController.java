@@ -3,6 +3,7 @@ package hrms.api.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,13 +29,13 @@ public class JobExperiencesController {
     }
 
     @PostMapping("/add")
-    public Result add(@RequestBody JobExperience jobExperience){
-        return this.jobExperienceService.add(jobExperience);
+    public ResponseEntity<?> add(@RequestBody JobExperience jobExperience){
+        return ResponseEntity.ok(this.jobExperienceService.add(jobExperience));
     }
 
     @GetMapping("/getAll")
-    public DataResult<List<JobExperience>> getAll(){
-        return this.jobExperienceService.getAll();
+    public ResponseEntity<?> getAll(){
+        return ResponseEntity.ok(this.jobExperienceService.getAll());
     }
 
 }

@@ -1,7 +1,6 @@
 package hrms.api.controllers;
 
-import java.util.List;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import hrms.business.abstracts.ResumeService;
-import hrms.core.utils.results.DataResult;
-import hrms.core.utils.results.Result;
 import hrms.entities.concretes.Resume;
 
 @RestController
@@ -26,13 +23,13 @@ public class ResumesController {
     }
 
     @PostMapping("/add")
-    public Result add(@RequestBody Resume resume){
-        return this.resumeService.add(resume);
+    public ResponseEntity<?> add(@RequestBody Resume resume){
+        return ResponseEntity.ok(this.resumeService.add(resume));  
     }
 
     @GetMapping("/getAll")
-    public DataResult<List<Resume>> getAll(){
-        return this.resumeService.getAll();
+    public ResponseEntity<?> getAll(){
+        return ResponseEntity.ok(this.resumeService.getAll());
     }
 
 }

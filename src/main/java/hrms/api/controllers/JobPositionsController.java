@@ -1,8 +1,7 @@
 package hrms.api.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import hrms.business.abstracts.JobPositionsService;
-import hrms.core.utils.results.DataResult;
-import hrms.core.utils.results.Result;
 import hrms.entities.concretes.JobPosition;
 
 @RestController
@@ -29,18 +26,18 @@ public class JobPositionsController {
     }
 
     @PostMapping("/add")
-    public Result add(@RequestBody JobPosition jobPosition){
-        return this.jobPositionsService.add(jobPosition);
+    public ResponseEntity<?> add(@RequestBody JobPosition jobPosition){
+        return ResponseEntity.ok(this.jobPositionsService.add(jobPosition));
     }
 
     @GetMapping("/getAll")
-    public DataResult<List<JobPosition>> getAll(){
-        return this.jobPositionsService.getAll();
+    public ResponseEntity<?> getAll(){
+        return ResponseEntity.ok(this.jobPositionsService.getAll());
     }
 
     @GetMapping("/getById")
-    public DataResult<List<JobPosition>> getById(@RequestParam int jobId){
-        return this.jobPositionsService.getById(jobId);
+    public ResponseEntity<?> getById(@RequestParam int jobId){
+        return ResponseEntity.ok(this.jobPositionsService.getById(jobId));
     }
 
 }
