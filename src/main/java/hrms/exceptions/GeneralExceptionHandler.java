@@ -23,9 +23,9 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDataResult<Object> handleValidationException(MethodArgumentNotValidException exceptions,
-                                                                            @NotNull HttpHeaders headers,
-                                                                            @NotNull HttpStatus status,
-                                                                            @NotNull WebRequest request) {
+            @NotNull HttpHeaders headers,
+            @NotNull HttpStatus status,
+            @NotNull WebRequest request) {
         Map<String, String> validationErrors = new HashMap<String, String>();
 
         for (FieldError fieldError : exceptions.getBindingResult().getFieldErrors()) {
@@ -37,26 +37,10 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
         return errors;
     }
 
-    // @NotNull
-    // @Override
-    // protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-    //                                                                     @NotNull HttpHeaders headers,
-    //                                                                     @NotNull HttpStatus status,
-    //                                                                     @NotNull WebRequest request) {
-    //     Map<String, String> errors = new HashMap<>();
-    //     ex.getBindingResult().getAllErrors().forEach(error -> {
-    //         String fieldName = ((FieldError) error).getField();
-    //         String errorMessage = error.getDefaultMessage();
-    //         errors.put(fieldName, errorMessage);
-    //     });
-    //     return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-    // }
-
-    // @ExceptionHandler
-    // public ResponseEntity<?> userNotFoundException(UserNotFoundException
-    // exception){
-    // return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
-    // }
+    @ExceptionHandler
+    public ResponseEntity<?> userNotFoundException(UserNotFoundException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
 
     @ExceptionHandler
     public ResponseEntity<?> jobNotFoundException(JobNotFoundException exception) {
