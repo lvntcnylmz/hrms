@@ -17,8 +17,8 @@ import hrms.entities.concretes.JobSeeker;
 @Service
 public class JobSeekerManager implements JobSeekerService {
 
-    private JobSeekerDao jobSeekerDao;
-    private MernisVerificationService mernisVerificationService;
+    private final JobSeekerDao jobSeekerDao;
+    private final MernisVerificationService mernisVerificationService;
     //private PasswordEncoder passwordEncoder;
 
     @Autowired
