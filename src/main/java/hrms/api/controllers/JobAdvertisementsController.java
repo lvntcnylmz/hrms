@@ -17,7 +17,7 @@ import hrms.entities.concretes.JobAdvertisement;
 @CrossOrigin
 @RequestMapping("/api/jobAdvertisements")
 public class JobAdvertisementsController {
-    
+
     private JobAdvertisementService jobAdvertisementService;
 
     public JobAdvertisementsController(JobAdvertisementService jobAdvertisementService) {
@@ -25,32 +25,32 @@ public class JobAdvertisementsController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody JobAdvertisement jobAdvertisement){
+    public ResponseEntity<?> add(@RequestBody JobAdvertisement jobAdvertisement) {
         return ResponseEntity.ok(this.jobAdvertisementService.add(jobAdvertisement));
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<?> getAllAdvertisement(){
+    public ResponseEntity<?> getAllAdvertisement() {
         return ResponseEntity.ok(this.jobAdvertisementService.getAllAdvertisement());
     }
-    
+
     @GetMapping("/getByJobStatus")
-    public ResponseEntity<?> getByJobStatus(){
+    public ResponseEntity<?> getByJobStatus() {
         return ResponseEntity.ok(this.jobAdvertisementService.getByJobStatus());
     }
 
     @GetMapping("/getByDate")
-    public ResponseEntity<?> getByDate(){
+    public ResponseEntity<?> getByDate() {
         return ResponseEntity.ok(this.jobAdvertisementService.getByDate());
     }
 
     @GetMapping("/getByCompany")
-    public ResponseEntity<?> getByCompany(@RequestParam String companyName){
+    public ResponseEntity<?> getByCompany(@RequestParam String companyName) {
         return ResponseEntity.ok(this.jobAdvertisementService.getByCompanyName(companyName));
     }
 
     @GetMapping("/getByJobId")
-    public ResponseEntity<?> getByJobId(@RequestParam int jobId){
+    public ResponseEntity<?> getByJobId(@RequestParam int jobId) {
         return ResponseEntity.ok(this.jobAdvertisementService.getJobById(jobId));
     }
 

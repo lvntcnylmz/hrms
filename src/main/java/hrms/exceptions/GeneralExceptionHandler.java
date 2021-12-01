@@ -23,9 +23,9 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDataResult<Object> handleValidationException(MethodArgumentNotValidException exceptions,
-            @NotNull HttpHeaders headers,
-            @NotNull HttpStatus status,
-            @NotNull WebRequest request) {
+                                                             @NotNull HttpHeaders headers,
+                                                             @NotNull HttpStatus status,
+                                                             @NotNull WebRequest request) {
         Map<String, String> validationErrors = new HashMap<String, String>();
 
         for (FieldError fieldError : exceptions.getBindingResult().getFieldErrors()) {

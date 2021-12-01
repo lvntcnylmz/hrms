@@ -17,7 +17,7 @@ import hrms.entities.concretes.JobPosition;
 @CrossOrigin
 @RequestMapping("/api/jobPositions")
 public class JobPositionsController {
-    
+
     private JobPositionsService jobPositionsService;
 
     @Autowired
@@ -26,17 +26,17 @@ public class JobPositionsController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody JobPosition jobPosition){
+    public ResponseEntity<?> add(@RequestBody JobPosition jobPosition) {
         return ResponseEntity.ok(this.jobPositionsService.add(jobPosition));
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<?> getAll(){
+    public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(this.jobPositionsService.getAll());
     }
 
     @GetMapping("/getById")
-    public ResponseEntity<?> getById(@RequestParam int jobId){
+    public ResponseEntity<?> getById(@RequestParam int jobId) {
         return ResponseEntity.ok(this.jobPositionsService.getById(jobId));
     }
 
