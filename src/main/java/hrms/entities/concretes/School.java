@@ -38,12 +38,12 @@ public class School {
     @Column(name = "departmant_name")
     private String departmentName;
 
-    //FIXME : date format accurs SQL query error...
+    //FIXME : date format generates SQL query error...
     @NotBlank
     @Column(name = "start_date")
     private LocalDate startDate;
     
-    //FIXME : date format accurs SQL query error...
+    //FIXME : date format generates SQL query error...
     @Column(name = "graduation_date")
     private LocalDate graduationDate;
 

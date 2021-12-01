@@ -36,8 +36,4 @@ public class User {
     @NotNull(message = "Password cannot be empty.")
     @Column(name = "password")
     private String password;
-
-
-    private String role;
-
 }
