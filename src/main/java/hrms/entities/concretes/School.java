@@ -2,14 +2,7 @@ package hrms.entities.concretes;
 
 import java.time.LocalDate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -17,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.repository.Temporal;
 
 @Data
 @Entity
@@ -30,20 +24,15 @@ public class School {
     @Column(name = "school_id")
     private int id;
 
-    @NotBlank
     @Column(name = "school_name")
     private String schoolName;
 
-    @NotBlank
     @Column(name = "departmant_name")
     private String departmentName;
 
-    //FIXME : date format generates SQL query error...
-    @NotBlank
     @Column(name = "start_date")
     private LocalDate startDate;
-    
-    //FIXME : date format generates SQL query error...
+
     @Column(name = "graduation_date")
     private LocalDate graduationDate;
 
