@@ -38,11 +38,6 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<?> userNotFoundException(UserNotFoundException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler
     public ResponseEntity<?> jobNotFoundException(JobNotFoundException exception) {
         return new ResponseEntity<>(exception.getLocalizedMessage(), HttpStatus.NOT_FOUND);
     }
