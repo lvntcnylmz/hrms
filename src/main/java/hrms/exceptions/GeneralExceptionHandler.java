@@ -5,10 +5,10 @@ import java.util.Map;
 
 import javax.validation.constraints.NotNull;
 
+import hrms.core.utils.results.ErrorResult;
 import org.springframework.validation.FieldError;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -19,27 +19,28 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import hrms.core.utils.results.ErrorDataResult;
 
 @RestControllerAdvice
-public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
+public class GeneralExceptionHandler {
 
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorDataResult<Object> handleValidationException(MethodArgumentNotValidException exceptions,
-                                                             @NotNull HttpHeaders headers,
-                                                             @NotNull HttpStatus status,
-                                                             @NotNull WebRequest request) {
+    public ErrorDataResult<Object> handleValidationException(MethodArgumentNotValidException exceptions) {
         Map<String, String> validationErrors = new HashMap<String, String>();
 
         for (FieldError fieldError : exceptions.getBindingResult().getFieldErrors()) {
             validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
         }
 
-        ErrorDataResult<Object> errors = new ErrorDataResult<Object>(validationErrors, "Verification Error");
-
-        return errors;
+        return new ErrorDataResult<Object>(validationErrors, "Verification Error");
     }
 
     @ExceptionHandler
-    public ResponseEntity<?> jobNotFoundException(JobNotFoundException exception) {
-        return new ResponseEntity<>(exception.getLocalizedMessage(), HttpStatus.NOT_FOUND);
+    public ErrorResult jobNotFoundException(JobNotFoundException exception) {
+        return new ErrorResult(exception.getLocalizedMessage());
+    }
+
+    @ExceptionHandler
+    public ErrorResult mernisInvalidUserException(MernisInvalidUserException exception){
+        return new ErrorResult(exception.getLocalizedMessage());
     }
 
 }
