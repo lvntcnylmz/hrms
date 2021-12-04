@@ -1,5 +1,6 @@
 package hrms.core.verifications.concretes;
 
+import hrms.exceptions.MernisInvalidUserException;
 import org.springframework.stereotype.Service;
 
 import hrms.core.utils.results.ErrorResult;
@@ -30,7 +31,7 @@ public class MernisVerificationManager implements MernisVerificationService {
         if (result) {
             return new SuccessResult("User is valid.");
         }
-        return new ErrorResult("User information is not valid. ");
+        throw new MernisInvalidUserException("User information is not valid.");
     }
 
 }

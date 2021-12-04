@@ -45,7 +45,8 @@ public class JobPositionManager implements JobPositionsService {
     @Override
     public DataResult<JobPosition> getById(int jobId) {
         return new SuccessDataResult<JobPosition>(this.jobPositionDao.findById(jobId)
-                .orElseThrow(() -> new JobNotFoundException("Job could not find by id:" + jobId)), "Job position found.");
+                .orElseThrow(() -> new JobNotFoundException("Job could not find by id:" + jobId))
+                , "Job position found.");
     }
 
     private Result checkIfPositionNameExists(String jobTitle) {
@@ -55,7 +56,7 @@ public class JobPositionManager implements JobPositionsService {
         if (result) {
             return new ErrorResult("Position already exists.");
         }
-        return new SuccessResult("Not Found.");
+        return new SuccessResult();
 
     }
 
