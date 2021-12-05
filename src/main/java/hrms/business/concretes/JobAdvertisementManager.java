@@ -1,9 +1,5 @@
 package hrms.business.concretes;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import hrms.business.abstracts.JobAdvertisementService;
 import hrms.core.utils.results.DataResult;
 import hrms.core.utils.results.Result;
@@ -11,6 +7,9 @@ import hrms.core.utils.results.SuccessDataResult;
 import hrms.dataAccess.abstracts.JobAdvertisementDao;
 import hrms.entities.concretes.JobAdvertisement;
 import hrms.entities.dtos.JobAdvertisementDto;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class JobAdvertisementManager implements JobAdvertisementService {
@@ -47,8 +46,8 @@ public class JobAdvertisementManager implements JobAdvertisementService {
     }
 
     @Override
-    public DataResult<List<JobAdvertisementDto>> getJobById(int jobId) {
-        return new SuccessDataResult<List<JobAdvertisementDto>>(this.jobAdvertisementDao.findJobById(jobId), "Job advertisement listed.");
+    public DataResult<List<JobAdvertisementDto>> getJobById(Integer id) {
+        return new SuccessDataResult<List<JobAdvertisementDto>>(this.jobAdvertisementDao.findJobById(id), "Job advertisement listed.");
     }
     
 }

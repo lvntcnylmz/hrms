@@ -1,11 +1,11 @@
 package hrms.business.abstracts;
 
-import java.util.List;
-
 import hrms.core.utils.results.DataResult;
 import hrms.core.utils.results.Result;
 import hrms.entities.concretes.JobAdvertisement;
 import hrms.entities.dtos.JobAdvertisementDto;
+
+import java.util.List;
 
 public interface JobAdvertisementService {
     
@@ -19,6 +19,6 @@ public interface JobAdvertisementService {
 
     DataResult<List<JobAdvertisementDto>> getByCompanyName(String companyName);
 
-    DataResult<List<JobAdvertisementDto>> getJobById(int jobId);
+    DataResult<List<JobAdvertisementDto>> getJobById(Integer id);
 
 }

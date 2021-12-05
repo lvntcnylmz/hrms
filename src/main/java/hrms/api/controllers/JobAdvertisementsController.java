@@ -1,16 +1,9 @@
 package hrms.api.controllers;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import hrms.business.abstracts.JobAdvertisementService;
 import hrms.entities.concretes.JobAdvertisement;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -44,14 +37,14 @@ public class JobAdvertisementsController {
         return ResponseEntity.ok(this.jobAdvertisementService.getByDate());
     }
 
-    @GetMapping("/getByCompany")
-    public ResponseEntity<?> getByCompany(@RequestParam String companyName) {
+    @GetMapping("/getByCompany/{companyName}")
+    public ResponseEntity<?> getByCompany(@PathVariable String companyName) {
         return ResponseEntity.ok(this.jobAdvertisementService.getByCompanyName(companyName));
     }
 
-    @GetMapping("/getByJobId")
-    public ResponseEntity<?> getByJobId(@RequestParam int jobId) {
-        return ResponseEntity.ok(this.jobAdvertisementService.getJobById(jobId));
+    @GetMapping("/getJobById/{id}")
+    public ResponseEntity<?> getByJobId(@PathVariable Integer id) {
+        return ResponseEntity.ok(this.jobAdvertisementService.getJobById(id));
     }
 
 }

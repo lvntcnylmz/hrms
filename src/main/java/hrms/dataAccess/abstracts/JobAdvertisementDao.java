@@ -1,12 +1,11 @@
 package hrms.dataAccess.abstracts;
 
-import java.util.List;
-
+import hrms.entities.concretes.JobAdvertisement;
+import hrms.entities.dtos.JobAdvertisementDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import hrms.entities.concretes.JobAdvertisement;
-import hrms.entities.dtos.JobAdvertisementDto;
+import java.util.List;
 
 public interface JobAdvertisementDao extends JpaRepository<JobAdvertisement, Integer> {
 
@@ -26,8 +25,8 @@ public interface JobAdvertisementDao extends JpaRepository<JobAdvertisement, Int
     "From  JobAdvertisement ja Inner Join ja.employer e Inner Join ja.jobPosition p Inner Join ja.city c")
     List<JobAdvertisementDto> findAllAdvertisement();
 
-    @Query("Select new hrms.entities.dtos.JobAdvertisementDto(ja.id, p.id, e.companyName, p.title, ja.status, ja.applicationDeadline, ja.numberOfOpenPosition, c.cityName)" + 
-        "From  JobAdvertisement ja Inner Join ja.employer e Inner Join ja.jobPosition p Inner Join ja.city c Where p.id=:jobId")
-    List<JobAdvertisementDto> findJobById(int jobId);
+    @Query("Select new hrms.entities.dtos.JobAdvertisementDto(ja.id, p.id, e.companyName, p.title, ja.status, ja.applicationDeadline, ja.numberOfOpenPosition, c.cityName)" +
+            "From  JobAdvertisement ja Inner Join ja.employer e Inner Join ja.jobPosition p Inner Join ja.city c Where p.id=:id")
+    List<JobAdvertisementDto> findJobById(Integer id);
 
 }
