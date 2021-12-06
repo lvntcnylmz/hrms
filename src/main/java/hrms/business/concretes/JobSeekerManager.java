@@ -1,30 +1,35 @@
 package hrms.business.concretes;
 
-import java.util.List;
-
-import hrms.core.utils.results.*;
-import hrms.core.verifications.abstracts.MernisVerificationService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.stereotype.Service;
-
 import hrms.business.abstracts.JobSeekerService;
 import hrms.core.utils.Business.BusinessRules;
+import hrms.core.utils.results.*;
+import hrms.core.verifications.abstracts.MernisVerificationService;
 import hrms.dataAccess.abstracts.JobSeekerDao;
 import hrms.entities.concretes.JobSeeker;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class JobSeekerManager implements JobSeekerService {
 
     private final JobSeekerDao jobSeekerDao;
+    private final UserManager userManager;
     private final MernisVerificationService mernisVerificationService;
-    //private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public JobSeekerManager(JobSeekerDao jobSeekerDao, MernisVerificationService mernisVerificationService) {
+    public JobSeekerManager(JobSeekerDao jobSeekerDao,
+                            UserManager userManager,
+                            MernisVerificationService mernisVerificationService) {
         this.jobSeekerDao = jobSeekerDao;
+        this.userManager = userManager;
         this.mernisVerificationService = mernisVerificationService;
-        //this.passwordEncoder = new BCryptPasswordEncoder();
+        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
     @Override
@@ -38,9 +43,19 @@ public class JobSeekerManager implements JobSeekerService {
         if (result != null) {
             return result;
         }
-//        String encodedPassword = this.passwordEncoder.encode(jobSeeker.getPassword());
-//        jobSeeker.setPassword(encodedPassword);
+
+        jobSeeker.setPassword(this.passwordEncoder.encode(jobSeeker.getPassword()));
         return new SuccessDataResult<JobSeeker>(this.jobSeekerDao.save(jobSeeker), "User information is valid. User was saved.");
+    }
+
+    @Override
+    public Result delete(Integer id) {
+        if (this.jobSeekerDao.existsById(id)) {
+            this.jobSeekerDao.delete(this.jobSeekerDao.getById(id));
+            this.userManager.delete(id);
+            return new SuccessResult("User deleted");
+        }
+        throw new UsernameNotFoundException("User not found by id");
     }
 
     @Override
