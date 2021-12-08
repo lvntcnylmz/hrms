@@ -1,11 +1,11 @@
 package hrms.business.abstracts;
 
 import hrms.core.utils.results.Result;
-import hrms.entities.concretes.User;
+import hrms.entities.dtos.UserLoginDto;
 
 public interface UserService {
 
-    Result login(User user);
+    Result login(UserLoginDto user);
 
     Result delete(Integer id);
 

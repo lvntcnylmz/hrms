@@ -1,7 +1,7 @@
 package hrms.api.controllers;
 
 import hrms.business.abstracts.UserService;
-import hrms.entities.concretes.User;
+import hrms.entities.dtos.UserLoginDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +17,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody User user) {
+    public ResponseEntity<?> login(@RequestBody UserLoginDto user) {
         return ResponseEntity.ok(this.userService.login(user));
     }
 }
