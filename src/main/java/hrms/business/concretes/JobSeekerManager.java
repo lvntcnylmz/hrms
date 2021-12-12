@@ -2,10 +2,15 @@ package hrms.business.concretes;
 
 import hrms.business.abstracts.JobSeekerService;
 import hrms.core.utils.Business.BusinessRules;
-import hrms.core.utils.results.*;
+import hrms.core.utils.results.DataResult;
+import hrms.core.utils.results.Result;
+import hrms.core.utils.results.SuccessDataResult;
+import hrms.core.utils.results.SuccessResult;
 import hrms.core.verifications.abstracts.MernisVerificationService;
 import hrms.dataAccess.abstracts.JobSeekerDao;
 import hrms.entities.concretes.JobSeeker;
+import hrms.exceptions.EmailAlreadyExistsException;
+import hrms.exceptions.NationalIdAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -68,7 +73,7 @@ public class JobSeekerManager implements JobSeekerService {
         var result = this.jobSeekerDao.existsJobSeekerByNationalId(jobSeeker.getNationalId());
 
         if (result) {
-            return new ErrorResult("National-ID already exists.");
+            throw new NationalIdAlreadyExistsException("National-ID already exists.");
         }
         return new SuccessResult();
     }
@@ -77,7 +82,7 @@ public class JobSeekerManager implements JobSeekerService {
         var result = this.jobSeekerDao.existsJobSeekerByEmail(jobSeeker.getEmail());
 
         if (result) {
-            return new ErrorResult("Email already exists.");
+            throw new EmailAlreadyExistsException("Email already exists.");
         }
         return new SuccessResult();
     }
