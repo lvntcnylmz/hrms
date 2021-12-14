@@ -1,23 +1,26 @@
 package hrms.entities.dtos;
 
-import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class JobAdvertisementDto {
-    
-    private int id;
-    private int jobId;
+
+    private Integer id;
+    private Integer jobId;
     private String companyName;
     private String jobTitle;
     private Boolean jobStatus;
-    private LocalDateTime applicationDeadline;
+    private Date applicationDeadline;
     private Integer numberOfOpenPosition;
-    private String cityName;   
+    private String cityName;
+    private String description;
+    private Integer minSalary;
+    private Integer maxSalary;
 
 }
