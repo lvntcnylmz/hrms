@@ -34,7 +34,7 @@ public class GeneralExceptionHandler {
 
     @ExceptionHandler(MernisInvalidUserException.class)
     public ResponseEntity<?> mernisInvalidUserException(MernisInvalidUserException exception) {
-        return new ResponseEntity<>(new ErrorResult(exception.getLocalizedMessage()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ErrorResult(exception.getLocalizedMessage()), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
