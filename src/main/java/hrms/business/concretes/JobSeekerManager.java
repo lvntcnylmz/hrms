@@ -8,15 +8,18 @@ import hrms.core.utils.results.SuccessDataResult;
 import hrms.core.utils.results.SuccessResult;
 import hrms.core.verifications.abstracts.MernisVerificationService;
 import hrms.dataAccess.abstracts.JobSeekerDao;
+import hrms.dataAccess.abstracts.RoleDao;
 import hrms.entities.concretes.JobSeeker;
+import hrms.entities.concretes.Role;
 import hrms.exceptions.EmailAlreadyExistsException;
 import hrms.exceptions.NationalIdAlreadyExistsException;
+import hrms.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -24,17 +27,21 @@ public class JobSeekerManager implements JobSeekerService {
 
     private final JobSeekerDao jobSeekerDao;
     private final UserManager userManager;
+    private final RoleDao roleDao;
     private final MernisVerificationService mernisVerificationService;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public JobSeekerManager(JobSeekerDao jobSeekerDao,
                             UserManager userManager,
-                            MernisVerificationService mernisVerificationService) {
+                            RoleDao roleDao,
+                            MernisVerificationService mernisVerificationService,
+                            PasswordEncoder passwordEncoder) {
         this.jobSeekerDao = jobSeekerDao;
         this.userManager = userManager;
+        this.roleDao = roleDao;
         this.mernisVerificationService = mernisVerificationService;
-        this.passwordEncoder = new BCryptPasswordEncoder();
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -49,6 +56,7 @@ public class JobSeekerManager implements JobSeekerService {
             return result;
         }
 
+        jobSeeker.setRoles(addRoleToJobSeeker());
         jobSeeker.setPassword(this.passwordEncoder.encode(jobSeeker.getPassword()));
         return new SuccessDataResult<JobSeeker>(this.jobSeekerDao.save(jobSeeker), "User information is valid. User was saved.");
     }
@@ -60,7 +68,7 @@ public class JobSeekerManager implements JobSeekerService {
             this.userManager.delete(id);
             return new SuccessResult("User deleted");
         }
-        throw new UsernameNotFoundException("User not found by id");
+        throw new UserNotFoundException("User not found by id");
     }
 
     @Override
@@ -85,6 +93,18 @@ public class JobSeekerManager implements JobSeekerService {
             throw new EmailAlreadyExistsException("Email already exists.");
         }
         return new SuccessResult();
+    }
+
+    private Collection<Role> addRoleToJobSeeker() {
+
+        Collection<Role> roles = new ArrayList<>() {
+            {
+                add(roleDao.findByName("ROLE_USER"));
+                add(roleDao.findByName("ROLE_CANDIDATE"));
+            }
+        };
+
+        return roles;
     }
 
 }
