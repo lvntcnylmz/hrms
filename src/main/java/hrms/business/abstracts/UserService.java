@@ -5,7 +5,7 @@ import hrms.entities.dtos.UserLoginDto;
 
 public interface UserService {
 
-    Result login(UserLoginDto user);
+    Result login(UserLoginDto userLoginDto);
 
     Result delete(Integer id);
 

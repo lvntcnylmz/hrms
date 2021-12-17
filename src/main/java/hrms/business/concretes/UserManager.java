@@ -1,34 +1,33 @@
 package hrms.business.concretes;
 
 import hrms.business.abstracts.UserService;
+import hrms.core.security.AppUserDetails;
 import hrms.core.utils.results.Result;
 import hrms.core.utils.results.SuccessResult;
 import hrms.dataAccess.abstracts.UserDao;
+import hrms.entities.concretes.User;
 import hrms.entities.dtos.UserLoginDto;
 import hrms.exceptions.IncorrectPasswordException;
 import hrms.exceptions.UserNotFoundException;
-import org.springframework.context.annotation.Bean;
+import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserManager implements UserService {
+@AllArgsConstructor
+public class UserManager implements UserService, UserDetailsService {
 
     private final UserDao userDao;
-
-    public UserManager(UserDao userDao) {
-        this.userDao = userDao;
-    }
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public Result login(UserLoginDto user) {
+    public Result login(UserLoginDto userLoginDto) {
 
-        UserLoginDto userDb = this.userDao.findByEmail(user.getEmail())
-                .orElseThrow(() -> new UserNotFoundException("User not found by email."));
-
-        if (passwordEncoder().matches(user.getPassword(), userDb.getPassword())) {
-            return new SuccessResult("You logged in.");
+        if (bCryptPasswordEncoder.matches(userLoginDto.getPassword(), loadUserByUsername(userLoginDto.getEmail()).getPassword())) {
+            return new SuccessResult("User successfully logged in.");
         }
         throw new IncorrectPasswordException("Incorrect Password");
     }
@@ -42,8 +41,12 @@ public class UserManager implements UserService {
         throw new UserNotFoundException("User not found by id.");
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = this.userDao.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found by email."));
+
+        return new AppUserDetails(user);
     }
 }
