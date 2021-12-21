@@ -1,6 +1,5 @@
 package hrms.core.security;
 
-import hrms.entities.concretes.Role;
 import hrms.entities.concretes.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,7 +11,7 @@ import java.util.List;
 
 public class AppUserDetails implements UserDetails {
 
-    private User user;
+    private final User user;
 
     public AppUserDetails(User user) {
         this.user = user;
@@ -20,9 +19,13 @@ public class AppUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<Role> roles = user.getRoles();
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        roles.forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
+
+        List<GrantedAuthority> authorities = new ArrayList<>();
+
+        this.user.getRoles().forEach(role -> {
+            GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role.getName());
+            authorities.add(authority);
+        });
         return authorities;
     }
 
