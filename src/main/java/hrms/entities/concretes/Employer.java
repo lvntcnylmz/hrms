@@ -1,27 +1,18 @@
 package hrms.entities.concretes;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper=true)
 @PrimaryKeyJoinColumn(name = "user_id")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "jobAdvertisements"})
 @Table(name = "Employers")
@@ -38,7 +29,7 @@ public class Employer extends User {
     @NotNull(message = "Phone number cannot be empty.")
     @Column(name = "phone_number")
     private String phoneNumber;
-    
+
     @OneToMany(mappedBy = "employer", cascade = CascadeType.ALL)
     private List<JobAdvertisement> jobAdvertisements;
 }

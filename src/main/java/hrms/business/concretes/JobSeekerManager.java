@@ -1,7 +1,7 @@
 package hrms.business.concretes;
 
 import hrms.business.abstracts.JobSeekerService;
-import hrms.core.utils.Business.BusinessRules;
+import hrms.core.utils.businessRulesCheck.BusinessRules;
 import hrms.core.utils.results.DataResult;
 import hrms.core.utils.results.Result;
 import hrms.core.utils.results.SuccessDataResult;

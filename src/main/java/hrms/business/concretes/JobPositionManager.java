@@ -1,20 +1,15 @@
 package hrms.business.concretes;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import hrms.business.abstracts.JobPositionsService;
-import hrms.core.utils.Business.BusinessRules;
-import hrms.core.utils.results.DataResult;
-import hrms.core.utils.results.ErrorResult;
-import hrms.core.utils.results.Result;
-import hrms.core.utils.results.SuccessDataResult;
-import hrms.core.utils.results.SuccessResult;
+import hrms.core.utils.businessRulesCheck.BusinessRules;
+import hrms.core.utils.results.*;
 import hrms.dataAccess.abstracts.JobPositionDao;
 import hrms.entities.concretes.JobPosition;
 import hrms.exceptions.JobNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class JobPositionManager implements JobPositionsService {

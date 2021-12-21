@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class JobAdvertisementManager implements JobAdvertisementService {
 
-    private JobAdvertisementDao jobAdvertisementDao;
+    private final JobAdvertisementDao jobAdvertisementDao;
 
     public JobAdvertisementManager(JobAdvertisementDao jobAdvertisementDao) {
         this.jobAdvertisementDao = jobAdvertisementDao;

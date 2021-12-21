@@ -1,13 +1,14 @@
 package hrms.business.concretes;
 
 import hrms.business.abstracts.EmployerService;
-import hrms.core.utils.Business.BusinessRules;
+import hrms.core.utils.businessRulesCheck.BusinessRules;
 import hrms.core.utils.results.*;
 import hrms.core.verifications.concretes.EmailVerification;
 import hrms.dataAccess.abstracts.EmployerDao;
 import hrms.dataAccess.abstracts.RoleDao;
 import hrms.entities.concretes.Employer;
 import hrms.entities.concretes.Role;
+import hrms.exceptions.JobNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,12 @@ public class EmployerManager implements EmployerService {
     @Override
     public DataResult<List<Employer>> getAll() {
         return new SuccessDataResult<List<Employer>>(this.employerDao.findAll(), "Employers are listed.");
+    }
+
+    @Override
+    public DataResult<Employer> getById(int id) {
+        return new SuccessDataResult<Employer>(this.employerDao.findById(id)
+                .orElseThrow(() -> new JobNotFoundException("Not Found")), "Employer found by id.");
     }
 
     private Result checkIfEmailExists(String email) {
