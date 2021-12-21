@@ -6,7 +6,7 @@ Backend project of human resource management system.. This project strictly impl
 
 
 ### Used Technologies And Principles ###
-* [Swagger](https://swagger.io/)
+* [Spring Boot](https://spring.io/projects/spring-boot)
 * [Swagger-UI](https://swagger.io/tools/swagger-ui/)
 * [Lombok](https://projectlombok.org/)
 * [PostgreSQL](https://www.postgresql.org/)
