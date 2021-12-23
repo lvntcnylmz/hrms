@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping("api/employers")
 public class EmployersController {
-    
+
     private EmployerService employerService;
 
     @Autowired
@@ -22,6 +22,11 @@ public class EmployersController {
     @PostMapping("/add")
     public ResponseEntity<?> add(@RequestBody Employer employer) {
         return ResponseEntity.ok(this.employerService.add(employer));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
+        return ResponseEntity.ok(this.employerService.delete(id));
     }
 
     @GetMapping("/getAll")
