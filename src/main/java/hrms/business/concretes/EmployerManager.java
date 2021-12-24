@@ -43,8 +43,9 @@ public class EmployerManager implements EmployerService {
     @Override
     public Result add(Employer employer) {
 
-        var result = BusinessRules.Run(this.emailVerification.verifyEmail(employer.getEmail()),
-                checkIfEmailExists(employer.getEmail()));
+        var result = BusinessRules.Run(
+                this.emailVerification.verifyEmail(employer.getEmail()),
+                this.checkIfEmailExists(employer.getEmail()));
 
         if (result != null) {
             return result;
@@ -88,14 +89,12 @@ public class EmployerManager implements EmployerService {
 
     private Collection<Role> addRoleToEmployer() {
 
-        Collection<Role> roles = new ArrayList<>() {
+        return new ArrayList<>() {
             {
-                add(roleDao.findByName("ROLE_USER"));
-                add(roleDao.findByName("ROLE_EMPLOYER"));
+                add(roleDao.findByName("USER"));
+                add(roleDao.findByName("EMPLOYER"));
             }
         };
-
-        return roles;
     }
 
 }
