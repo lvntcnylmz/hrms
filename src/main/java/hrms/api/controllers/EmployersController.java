@@ -2,25 +2,24 @@ package hrms.api.controllers;
 
 import hrms.business.abstracts.EmployerService;
 import hrms.entities.concretes.Employer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @CrossOrigin
 @RequestMapping("api/employers")
 public class EmployersController {
 
-    private EmployerService employerService;
+    private final EmployerService employerService;
 
-    @Autowired
     public EmployersController(EmployerService employerService) {
-
         this.employerService = employerService;
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody Employer employer) {
+    public ResponseEntity<?> add(@Valid @RequestBody Employer employer) {
         return ResponseEntity.ok(this.employerService.add(employer));
     }
 

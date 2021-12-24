@@ -98,14 +98,12 @@ public class JobSeekerManager implements JobSeekerService {
 
     private Collection<Role> addRoleToJobSeeker() {
 
-        Collection<Role> roles = new ArrayList<>() {
+        return new ArrayList<>() {
             {
-                add(roleDao.findByName("ROLE_USER"));
-                add(roleDao.findByName("ROLE_CANDIDATE"));
+                add(roleDao.findByName("USER"));
+                add(roleDao.findByName("CANDIDATE"));
             }
         };
-
-        return roles;
     }
 
 }
