@@ -2,6 +2,7 @@ package hrms.core.security;
 
 import hrms.business.concretes.UserManager;
 import hrms.core.security.jwt.JwtAuthorizationFilter;
+import hrms.core.security.jwt.JwtUtil;
 import hrms.dataAccess.abstracts.UserDao;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
@@ -20,23 +22,27 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final UserManager userManager;
     private final UserDao userDao;
-    private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
-    public SecurityConfiguration(UserManager userManager,
-                                 UserDao userDao,
-                                 PasswordEncoder passwordEncoder) {
+
+    public SecurityConfiguration(UserManager userManager, UserDao userDao, JwtUtil jwtUtil) {
         this.userManager = userManager;
         this.userDao = userDao;
-        this.passwordEncoder = passwordEncoder;
+
+        this.jwtUtil = jwtUtil;
     }
 
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(this.userManager);
-        provider.setPasswordEncoder(this.passwordEncoder.bCryptPasswordEncoder());
-
-        return provider;
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), this.userDao, this.userManager, this.jwtUtil))
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                .antMatchers("/api/jobSeekers/getAll").hasAnyAuthority("ADMIN")
+                .antMatchers("/api/employers/getAll").hasAnyAuthority("USER")
+                .anyRequest().authenticated();
     }
 
     @Override
@@ -45,23 +51,29 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    @Override
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(this.userManager);
+        provider.setPasswordEncoder(this.bCryptPasswordEncoder());
+
+        return provider;
+    }
+
+    @Bean
     public AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                //.addFilter(new JwtAuthenticationFilter(authenticationManager(), userManager))
-                .addFilter(new JwtAuthorizationFilter(authenticationManager(), this.userDao, userManager))
-                .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
-                .antMatchers("/api/jobSeekers/getAll").hasAnyRole("ADMIN")
-                .antMatchers("/api/employers/getAll").hasAnyRole("EMPLOYER")
-                .anyRequest().authenticated();
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
+
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        web.ignoring()
+//                .antMatchers(HttpMethod.GET)
+//                .antMatchers(HttpMethod.POST)
+//                .antMatchers(HttpMethod.DELETE);
+//    }
 }
