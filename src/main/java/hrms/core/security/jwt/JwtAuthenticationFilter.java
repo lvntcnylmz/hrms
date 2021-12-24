@@ -1,10 +1,10 @@
 package hrms.core.security.jwt;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hrms.business.concretes.UserManager;
 import hrms.core.security.AppUserDetails;
 import hrms.entities.dtos.UserLoginDto;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,25 +17,29 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
+    private final UserManager userManager;
+    private final JwtUtil jwtUtil;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, UserManager userManager, JwtUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
+        this.userManager = userManager;
+        this.jwtUtil = jwtUtil;
+        setFilterProcessesUrl(JwtProperties.LOGIN_URL);
     }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
 
-        UserLoginDto userLoginDto = null;
+        UserLoginDto userLoginDto;
         try {
             userLoginDto = new ObjectMapper().readValue(request.getInputStream(), UserLoginDto.class);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
         UsernamePasswordAuthenticationToken authenticationToken = null;
@@ -56,13 +60,27 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
 
-        AppUserDetails appUserDetails = (AppUserDetails) authResult.getPrincipal();
+        AppUserDetails appUserDetails = (AppUserDetails) authResult.getAuthorities();
 
-        String token = JWT.create()
-                .withSubject(appUserDetails.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
-                .sign(Algorithm.HMAC512(JwtProperties.SECRET.getBytes()));
+        response.addHeader(JwtProperties.HEADER_STRING,
+                JwtProperties.TOKEN_PREFIX + this.jwtUtil.createToken(appUserDetails));
 
-        response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + token);
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(this.jwtUtil.createToken(appUserDetails)
+                //"{\"" + "token" + "\":\"" + this.userManager.createToken(appUserDetails).getData() + "\"}"
+        );
     }
+
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request,
+                                              HttpServletResponse response,
+                                              AuthenticationException failed) throws IOException, ServletException {
+
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.getWriter().flush();
+    }
+
 }

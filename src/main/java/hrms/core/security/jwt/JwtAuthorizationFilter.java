@@ -1,7 +1,5 @@
 package hrms.core.security.jwt;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import hrms.business.concretes.UserManager;
 import hrms.core.security.AppUserDetails;
 import hrms.dataAccess.abstracts.UserDao;
@@ -23,12 +21,14 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     private final UserDao userDao;
     private final UserManager userManager;
+    private final JwtUtil jwtUtil;
 
     public JwtAuthorizationFilter(AuthenticationManager authenticationManager,
-                                  UserDao userDao, UserManager userManager) {
+                                  UserDao userDao, UserManager userManager, JwtUtil jwtUtil) {
         super(authenticationManager);
         this.userDao = userDao;
         this.userManager = userManager;
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
@@ -43,11 +43,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             return;
         }
 
-//        AppUserDetails appUserDetails = (AppUserDetails) getAuthentication(request).getAuthorities();
-//
-//        response.addHeader(JwtProperties.HEADER_STRING,
-//                JwtProperties.TOKEN_PREFIX + this.userManager.createToken(appUserDetails));
-
         Authentication authentication = getAuthentication(request);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -59,16 +54,16 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         String token = request.getHeader(JwtProperties.HEADER_STRING)
                 .replace(JwtProperties.TOKEN_PREFIX, "");
 
-        String email = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET.getBytes()))
-                .build()
-                .verify(token)
-                .getSubject();
+        String email = this.jwtUtil.verifyToken(token);
 
         User user = this.userDao.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User could not found by email"));
+
         AppUserDetails appUserDetails = new AppUserDetails(user);
+
         return new UsernamePasswordAuthenticationToken(
                 email, null, appUserDetails.getAuthorities());
 
     }
+
 }
