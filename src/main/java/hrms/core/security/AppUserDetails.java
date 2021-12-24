@@ -23,8 +23,7 @@ public class AppUserDetails implements UserDetails {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         this.user.getRoles().forEach(role -> {
-            GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role.getName());
-            authorities.add(authority);
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
         });
         return authorities;
     }
