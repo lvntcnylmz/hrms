@@ -7,7 +7,7 @@ RUN ./mvnw dependency:resolve
 COPY src src
 RUN ./mvnw package
 
-FROM openjdk:11
-WORKDIR hrms
-COPY --from=build target/*.jar account-api.jar
+FROM openjdk:17
+WORKDIR /hrms
+COPY --from=build target/*.jar hrms.jar
 ENTRYPOINT ["java", "-jar", "hrms.jar"]
