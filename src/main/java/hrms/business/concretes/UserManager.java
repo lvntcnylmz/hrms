@@ -2,6 +2,7 @@ package hrms.business.concretes;
 
 import hrms.business.abstracts.UserService;
 import hrms.core.security.AppUserDetails;
+import hrms.core.security.jwt.JwtProperties;
 import hrms.core.security.jwt.JwtUtil;
 import hrms.core.utils.results.Result;
 import hrms.core.utils.results.SuccessDataResult;
@@ -19,26 +20,31 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
+
 @Service
 public class UserManager implements UserService, UserDetailsService {
 
     private final UserDao userDao;
+    private final JwtUtil jwtUtil;
+    private final HttpServletResponse response;
 
     @Autowired
     private AuthenticationManager authenticationManager;
-    private final JwtUtil jwtUtil;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public UserManager(UserDao userDao, JwtUtil jwtUtil) {
+    public UserManager(UserDao userDao, JwtUtil jwtUtil, HttpServletResponse response) {
         this.userDao = userDao;
         this.jwtUtil = jwtUtil;
+        this.response = response;
     }
 
     @Override
     public Result login(UserLoginDto userLoginDto) {
 
-        UserDetails userDetails = loadUserByUsername(userLoginDto.getEmail());
+        AppUserDetails userDetails = (AppUserDetails) loadUserByUsername(userLoginDto.getEmail());
 
         if (!this.passwordEncoder.matches(userLoginDto.getPassword(), userDetails.getPassword())) {
             throw new IncorrectPasswordException("Invalid Password.");
@@ -48,7 +54,12 @@ public class UserManager implements UserService, UserDetailsService {
                 new UsernamePasswordAuthenticationToken(userLoginDto.getEmail(),
                         userLoginDto.getPassword(), userDetails.getAuthorities()));
 
-        return new SuccessDataResult<>(this.jwtUtil.createToken((AppUserDetails) userDetails), "Login successful");
+        String token = this.jwtUtil.createToken(userDetails);
+
+        response.addHeader(JwtProperties.HEADER_STRING,
+                JwtProperties.TOKEN_PREFIX + token);
+
+        return new SuccessDataResult<>(token, "Login successful");
     }
 
     @Override

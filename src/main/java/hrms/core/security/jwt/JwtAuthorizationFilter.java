@@ -3,12 +3,11 @@ package hrms.core.security.jwt;
 import hrms.business.concretes.UserManager;
 import hrms.core.security.AppUserDetails;
 import hrms.dataAccess.abstracts.UserDao;
-import hrms.entities.concretes.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -22,6 +21,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     private final UserDao userDao;
     private final UserManager userManager;
     private final JwtUtil jwtUtil;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     public JwtAuthorizationFilter(AuthenticationManager authenticationManager,
                                   UserDao userDao, UserManager userManager, JwtUtil jwtUtil) {
@@ -52,18 +53,16 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     private Authentication getAuthentication(HttpServletRequest request) {
 
         String token = request.getHeader(JwtProperties.HEADER_STRING)
-                .replace(JwtProperties.TOKEN_PREFIX, "");
+                .substring(JwtProperties.TOKEN_PREFIX.length());
 
         String email = this.jwtUtil.verifyToken(token);
 
-        User user = this.userDao.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User could not found by email"));
-
-        AppUserDetails appUserDetails = new AppUserDetails(user);
+        AppUserDetails appUserDetails = (AppUserDetails) this.userManager.loadUserByUsername(email);
 
         return new UsernamePasswordAuthenticationToken(
-                email, null, appUserDetails.getAuthorities());
-
+                appUserDetails,
+                null,
+                appUserDetails.getAuthorities());
     }
 
 }

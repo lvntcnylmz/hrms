@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hrms.business.concretes.UserManager;
 import hrms.core.security.AppUserDetails;
 import hrms.entities.dtos.UserLoginDto;
-import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,7 +27,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         this.authenticationManager = authenticationManager;
         this.userManager = userManager;
         this.jwtUtil = jwtUtil;
-        setFilterProcessesUrl(JwtProperties.LOGIN_URL);
+        //setFilterProcessesUrl(JwtProperties.LOGIN_URL);
     }
 
     @Override
@@ -42,14 +41,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             throw new RuntimeException(e);
         }
 
-        UsernamePasswordAuthenticationToken authenticationToken = null;
-        if (userLoginDto != null) {
-            authenticationToken = new UsernamePasswordAuthenticationToken(
-                    userLoginDto.getEmail(),
-                    userLoginDto.getPassword(),
-                    new ArrayList<>()
-            );
-        }
+        AppUserDetails appUserDetails = (AppUserDetails) this.userManager.loadUserByUsername(userLoginDto.getEmail());
+
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                appUserDetails.getUsername(),
+                null,
+                new ArrayList<>());
 
         return this.authenticationManager.authenticate(authenticationToken);
     }
@@ -60,27 +57,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
 
-        AppUserDetails appUserDetails = (AppUserDetails) authResult.getAuthorities();
+        AppUserDetails appUserDetails = (AppUserDetails) authResult.getPrincipal();
 
-        response.addHeader(JwtProperties.HEADER_STRING,
-                JwtProperties.TOKEN_PREFIX + this.jwtUtil.createToken(appUserDetails));
+        String token = this.jwtUtil.createToken(appUserDetails);
 
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(this.jwtUtil.createToken(appUserDetails)
-                //"{\"" + "token" + "\":\"" + this.userManager.createToken(appUserDetails).getData() + "\"}"
-        );
+        response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + token);
     }
-
-
-    @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request,
-                                              HttpServletResponse response,
-                                              AuthenticationException failed) throws IOException, ServletException {
-
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.getWriter().flush();
-    }
-
 }

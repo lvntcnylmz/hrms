@@ -14,6 +14,7 @@ public class JwtUtil {
 
     public String createToken(AppUserDetails appUserDetails) {
         return JWT.create()
+                .withIssuer("JobFinder")
                 .withSubject(appUserDetails.getUsername())
                 .withClaim("roles", appUserDetails.getAuthorities()
                         .stream()
