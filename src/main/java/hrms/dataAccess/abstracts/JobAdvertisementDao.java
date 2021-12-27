@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface JobAdvertisementDao extends JpaRepository<JobAdvertisement, Integer> {
 
@@ -27,6 +28,6 @@ public interface JobAdvertisementDao extends JpaRepository<JobAdvertisement, Int
 
     @Query("Select new hrms.entities.dtos.JobAdvertisementDto(ja.id, p.id, e.companyName, p.title, ja.status, ja.applicationDeadline, ja.numberOfOpenPosition, c.cityName, ja.description, ja.minSalary, ja.maxSalary)" +
             "From  JobAdvertisement ja Inner Join ja.employer e Inner Join ja.jobPosition p Inner Join ja.city c Where p.id=:id")
-    List<JobAdvertisementDto> findJobById(Integer id);
+    Optional<JobAdvertisementDto> findJobById(Integer id);
 
 }
