@@ -16,6 +16,7 @@ public class JwtUtil {
         return JWT.create()
                 .withIssuer("JobFinder")
                 .withSubject(appUserDetails.getUsername())
+                .withAudience(appUserDetails.getUserId())
                 .withClaim("roles", appUserDetails.getAuthorities()
                         .stream()
                         .map(GrantedAuthority::getAuthority)

@@ -18,16 +18,14 @@ import java.io.IOException;
 
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
-    private final UserDao userDao;
     private final UserManager userManager;
     private final JwtUtil jwtUtil;
     @Autowired
     private AuthenticationManager authenticationManager;
 
     public JwtAuthorizationFilter(AuthenticationManager authenticationManager,
-                                  UserDao userDao, UserManager userManager, JwtUtil jwtUtil) {
+                                  UserManager userManager, JwtUtil jwtUtil) {
         super(authenticationManager);
-        this.userDao = userDao;
         this.userManager = userManager;
         this.jwtUtil = jwtUtil;
     }

@@ -11,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -37,9 +38,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilter(new JwtAuthorizationFilter(authenticationManager(), this.userDao, this.userManager, this.jwtUtil))
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), this.userManager, this.jwtUtil))
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                .antMatchers("/api/auth/login", "/swagger-ui/**").permitAll()
                 .antMatchers("/api/jobSeekers/getAll").hasAnyAuthority("ADMIN")
                 .antMatchers("/api/employers/getAll").hasAnyAuthority("USER")
                 .anyRequest().authenticated();
@@ -68,12 +69,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring()
-//                .antMatchers(HttpMethod.GET)
-//                .antMatchers(HttpMethod.POST)
-//                .antMatchers(HttpMethod.DELETE);
-//    }
+    
 }
