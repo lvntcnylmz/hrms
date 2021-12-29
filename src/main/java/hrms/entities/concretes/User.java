@@ -35,6 +35,8 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_user_id", referencedColumnName = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "roles_id", referencedColumnName = "id"))
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
 }
