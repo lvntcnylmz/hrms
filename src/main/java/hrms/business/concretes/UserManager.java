@@ -4,6 +4,7 @@ import hrms.business.abstracts.UserService;
 import hrms.core.security.AppUserDetails;
 import hrms.core.security.jwt.JwtProperties;
 import hrms.core.security.jwt.JwtUtil;
+import hrms.core.utils.results.DataResult;
 import hrms.core.utils.results.Result;
 import hrms.core.utils.results.SuccessDataResult;
 import hrms.dataAccess.abstracts.UserDao;
@@ -21,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Service
 public class UserManager implements UserService, UserDetailsService {
@@ -60,6 +62,16 @@ public class UserManager implements UserService, UserDetailsService {
                 JwtProperties.TOKEN_PREFIX + token);
 
         return new SuccessDataResult<>(token, "Login successful");
+    }
+
+    @Override
+    public DataResult<List<User>> getAll() {
+        return new SuccessDataResult<>(this.userDao.findAll());
+    }
+
+    @Override
+    public DataResult<User> getById(Integer id) {
+        return new SuccessDataResult<User>(this.userDao.findById(id).orElseThrow());
     }
 
     @Override

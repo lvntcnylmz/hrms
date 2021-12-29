@@ -77,6 +77,11 @@ public class JobSeekerManager implements JobSeekerService {
         return new SuccessDataResult<List<JobSeeker>>(this.jobSeekerDao.findAll(), "Candidates are listed.");
     }
 
+    @Override
+    public DataResult<JobSeeker> getById(Integer id) {
+        return new SuccessDataResult<JobSeeker>(this.jobSeekerDao.findById(id).orElseThrow(), "Job Seeker found by id.");
+    }
+
     private Result checkIfNationalIdAlreadyExists(JobSeeker jobSeeker) {
 
         var result = this.jobSeekerDao.existsJobSeekerByNationalId(jobSeeker.getNationalId());

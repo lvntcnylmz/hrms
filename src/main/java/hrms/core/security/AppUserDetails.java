@@ -38,6 +38,10 @@ public class AppUserDetails implements UserDetails {
         return this.user.getEmail();
     }
 
+    public String getUserId(){
+        return String.valueOf(this.user.getUserId());
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;

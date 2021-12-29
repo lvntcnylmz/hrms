@@ -32,4 +32,9 @@ public class JobSeekersController {
     public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(this.jobSeekerService.getAll());
     }
+
+    @GetMapping("/getById/{id}")
+    public ResponseEntity<?> getById(@PathVariable Integer id) {
+        return ResponseEntity.ok(this.jobSeekerService.getById(id));
+    }
 }
