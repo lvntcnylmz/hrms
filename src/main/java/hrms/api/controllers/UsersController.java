@@ -15,7 +15,7 @@ public class UsersController {
         this.userService = userService;
     }
 
-    @GetMapping("/getAll")
+    @GetMapping
     public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(this.userService.getAll());
     }

@@ -15,7 +15,7 @@ import hrms.entities.concretes.Skill;
 @RequestMapping("/api/skills")
 public class SkillsContoller {
     
-    private SkillService skillService;
+    private final SkillService skillService;
 
     public SkillsContoller(SkillService skillService) {
         this.skillService = skillService;

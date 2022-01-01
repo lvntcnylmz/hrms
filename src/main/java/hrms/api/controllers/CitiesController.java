@@ -22,7 +22,7 @@ import hrms.entities.concretes.City;
 @RequestMapping("api/cities")
 public class CitiesController {
     
-    private CityService cityService;
+    private final CityService cityService;
 
     @Autowired
     public CitiesController(CityService cityService) {
@@ -34,12 +34,12 @@ public class CitiesController {
         return ResponseEntity.ok(this.cityService.add(city));
     }
 
-    @GetMapping("/getAll")
+    @GetMapping
     public ResponseEntity<?> getAll(){
         return ResponseEntity.ok(this.cityService.getAll());
     }
 
-    @GetMapping("/getById/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable int id){
         return ResponseEntity.ok(this.cityService.getCityById(id));
     }

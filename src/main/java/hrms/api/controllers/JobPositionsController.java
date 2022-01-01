@@ -2,13 +2,7 @@ package hrms.api.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import hrms.business.abstracts.JobPositionsService;
 import hrms.entities.concretes.JobPosition;
@@ -18,7 +12,7 @@ import hrms.entities.concretes.JobPosition;
 @RequestMapping("/api/jobPositions")
 public class JobPositionsController {
 
-    private JobPositionsService jobPositionsService;
+    private final JobPositionsService jobPositionsService;
 
     @Autowired
     public JobPositionsController(JobPositionsService jobPositionsService) {
@@ -30,13 +24,13 @@ public class JobPositionsController {
         return ResponseEntity.ok(this.jobPositionsService.add(jobPosition));
     }
 
-    @GetMapping("/getAll")
+    @GetMapping
     public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(this.jobPositionsService.getAll());
     }
 
-    @GetMapping("/getById")
-    public ResponseEntity<?> getById(@RequestParam int jobId) {
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable Integer jobId) {
         return ResponseEntity.ok(this.jobPositionsService.getById(jobId));
     }
 

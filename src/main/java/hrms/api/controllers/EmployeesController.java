@@ -14,14 +14,14 @@ import hrms.business.abstracts.EmployeeService;
 @RequestMapping("/api/employees")
 public class EmployeesController {
 
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
     @Autowired
     public EmployeesController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("/getAll")
+    @GetMapping
     public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(this.employeeService.getAll());
     }

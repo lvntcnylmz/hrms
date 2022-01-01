@@ -17,7 +17,7 @@ import hrms.entities.concretes.School;
 @RequestMapping("/api/schools")
 public class SchoolsController {
     
-    private SchoolService schoolService;
+    private final SchoolService schoolService;
 
     @Autowired
     public SchoolsController(SchoolService schoolService) {
@@ -29,7 +29,7 @@ public class SchoolsController {
         return ResponseEntity.ok(this.schoolService.add(school)); 
     }
 
-    @GetMapping("/getAll")
+    @GetMapping
     public ResponseEntity<?> getAll(){
         return ResponseEntity.ok(this.schoolService.getAll()); 
     }

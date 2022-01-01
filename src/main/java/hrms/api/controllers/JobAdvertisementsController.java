@@ -22,7 +22,7 @@ public class JobAdvertisementsController {
         return ResponseEntity.ok(this.jobAdvertisementService.add(jobAdvertisement));
     }
 
-    @GetMapping("/getAll")
+    @GetMapping
     public ResponseEntity<?> getAllAdvertisement() {
         return ResponseEntity.ok(this.jobAdvertisementService.getAll());
     }
@@ -37,12 +37,12 @@ public class JobAdvertisementsController {
         return ResponseEntity.ok(this.jobAdvertisementService.getByDate());
     }
 
-    @GetMapping("/getByCompany/{companyName}")
+    @GetMapping("/{companyName}")
     public ResponseEntity<?> getByCompany(@PathVariable String companyName) {
         return ResponseEntity.ok(this.jobAdvertisementService.getByCompanyName(companyName));
     }
 
-    @GetMapping("/getJobById/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getByJobId(@PathVariable Integer id) {
         return ResponseEntity.ok(this.jobAdvertisementService.getJobById(id));
     }

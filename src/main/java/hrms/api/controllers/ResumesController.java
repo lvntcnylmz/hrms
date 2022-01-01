@@ -16,7 +16,7 @@ import hrms.entities.concretes.Resume;
 @RequestMapping("/api/resumes")
 public class ResumesController {
     
-    private ResumeService resumeService;
+    private final ResumeService resumeService;
 
     public ResumesController(ResumeService resumeService) {
         this.resumeService = resumeService;
@@ -27,7 +27,7 @@ public class ResumesController {
         return ResponseEntity.ok(this.resumeService.add(resume));  
     }
 
-    @GetMapping("/getAll")
+    @GetMapping
     public ResponseEntity<?> getAll(){
         return ResponseEntity.ok(this.resumeService.getAll());
     }

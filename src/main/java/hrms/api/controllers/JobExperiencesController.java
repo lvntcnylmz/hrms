@@ -17,7 +17,7 @@ import hrms.entities.concretes.JobExperience;
 @RequestMapping("api/jobExperience")
 public class JobExperiencesController {
     
-    private JobExperienceService jobExperienceService;
+    private final JobExperienceService jobExperienceService;
 
     @Autowired
     public JobExperiencesController(JobExperienceService jobExperienceService) {
@@ -29,7 +29,7 @@ public class JobExperiencesController {
         return ResponseEntity.ok(this.jobExperienceService.add(jobExperience));
     }
 
-    @GetMapping("/getAll")
+    @GetMapping
     public ResponseEntity<?> getAll(){
         return ResponseEntity.ok(this.jobExperienceService.getAll());
     }

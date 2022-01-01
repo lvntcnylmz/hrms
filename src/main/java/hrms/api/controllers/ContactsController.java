@@ -16,7 +16,7 @@ import hrms.entities.concretes.Contact;
 @RequestMapping("/api/contacts")
 public class ContactsController {
     
-    private ContactService contactService;
+    private final ContactService contactService;
 
     @Autowired
     public ContactsController(ContactService contactService) {

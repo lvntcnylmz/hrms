@@ -18,7 +18,7 @@ import hrms.entities.concretes.Photo;
 @RequestMapping("/api/photos")
 public class PhotosController {
     
-    private PhotoService photoService;
+    private final PhotoService photoService;
 
     @Autowired
     public PhotosController(PhotoService photoService) {

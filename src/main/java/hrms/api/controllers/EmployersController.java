@@ -30,7 +30,7 @@ public class EmployersController {
         return ResponseEntity.ok(this.employerService.add(employerRegister));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Integer id) {
         return ResponseEntity.ok(this.employerService.delete(id));
     }

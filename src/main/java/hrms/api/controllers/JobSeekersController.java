@@ -30,7 +30,7 @@ public class JobSeekersController {
         return ResponseEntity.ok(this.jobSeekerService.add(jobSeekerRegister));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Integer id) {
         return ResponseEntity.ok(this.jobSeekerService.delete(id));
     }
