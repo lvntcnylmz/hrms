@@ -7,6 +7,7 @@ import hrms.core.utils.results.SuccessDataResult;
 import hrms.dataAccess.abstracts.JobAdvertisementDao;
 import hrms.entities.concretes.JobAdvertisement;
 import hrms.entities.dtos.JobAdvertisementDto;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,9 +16,11 @@ import java.util.List;
 public class JobAdvertisementManager implements JobAdvertisementService {
 
     private final JobAdvertisementDao jobAdvertisementDao;
+    private final ModelMapper modelMapper;
 
-    public JobAdvertisementManager(JobAdvertisementDao jobAdvertisementDao) {
+    public JobAdvertisementManager(JobAdvertisementDao jobAdvertisementDao, ModelMapper modelMapper) {
         this.jobAdvertisementDao = jobAdvertisementDao;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -26,8 +29,9 @@ public class JobAdvertisementManager implements JobAdvertisementService {
     }
 
     @Override
-    public DataResult<List<JobAdvertisementDto>> getAllAdvertisement() {
-        return new SuccessDataResult<List<JobAdvertisementDto>>(this.jobAdvertisementDao.findAllAdvertisement(), "Job advertisement listed.");
+    public DataResult<List<JobAdvertisement>> getAll() {
+        JobAdvertisementDto jobAdvertisementDto = this.modelMapper.map(new JobAdvertisement(), JobAdvertisementDto.class);
+        return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.findAll(), "Job advertisement listed.");
     }
 
     @Override

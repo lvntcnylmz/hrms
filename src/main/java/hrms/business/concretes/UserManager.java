@@ -9,7 +9,7 @@ import hrms.core.utils.results.Result;
 import hrms.core.utils.results.SuccessDataResult;
 import hrms.dataAccess.abstracts.UserDao;
 import hrms.entities.concretes.User;
-import hrms.entities.dtos.UserLoginDto;
+import hrms.entities.dtos.request.UserLoginDto;
 import hrms.exceptions.IncorrectPasswordException;
 import hrms.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

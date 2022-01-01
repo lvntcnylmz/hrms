@@ -1,7 +1,11 @@
 package hrms.api.controllers;
 
 import hrms.business.abstracts.EmployerService;
+import hrms.core.utils.results.DataResult;
 import hrms.entities.concretes.Employer;
+import hrms.entities.dtos.request.EmployerRegisterDto;
+import hrms.entities.dtos.response.EmployerResponseDto;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,14 +17,17 @@ import javax.validation.Valid;
 public class EmployersController {
 
     private final EmployerService employerService;
+    private final ModelMapper modelMapper;
 
-    public EmployersController(EmployerService employerService) {
+    public EmployersController(EmployerService employerService, ModelMapper modelMapper) {
         this.employerService = employerService;
+        this.modelMapper = modelMapper;
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@Valid @RequestBody Employer employer) {
-        return ResponseEntity.ok(this.employerService.add(employer));
+    public ResponseEntity<?> add(@Valid @RequestBody EmployerRegisterDto employer) {
+        Employer employerRegister = this.modelMapper.map(employer, Employer.class);
+        return ResponseEntity.ok(this.employerService.add(employerRegister));
     }
 
     @DeleteMapping("/delete/{id}")
@@ -28,14 +35,18 @@ public class EmployersController {
         return ResponseEntity.ok(this.employerService.delete(id));
     }
 
-    @GetMapping("/getAll")
+    @GetMapping
     public ResponseEntity<?> getAll() {
-        return ResponseEntity.ok(this.employerService.getAll());
+        return ResponseEntity.ok(this.employerService.getAll().getData()
+                .stream()
+                .map(employer -> this.modelMapper.map(employer, EmployerResponseDto.class)));
     }
 
-    @GetMapping("/getById/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable int id) {
-        return ResponseEntity.ok(this.employerService.getById(id));
+        DataResult<Employer> employer = this.employerService.getById(id);
+        EmployerResponseDto employerResponse = this.modelMapper.map(employer.getData(), EmployerResponseDto.class);
+        return ResponseEntity.ok().body(employerResponse);
     }
 
 }

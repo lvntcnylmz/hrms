@@ -1,7 +1,7 @@
 package hrms.api.controllers;
 
 import hrms.business.abstracts.UserService;
-import hrms.entities.dtos.UserLoginDto;
+import hrms.entities.dtos.request.UserLoginDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

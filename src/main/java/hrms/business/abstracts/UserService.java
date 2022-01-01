@@ -3,7 +3,7 @@ package hrms.business.abstracts;
 import hrms.core.utils.results.DataResult;
 import hrms.core.utils.results.Result;
 import hrms.entities.concretes.User;
-import hrms.entities.dtos.UserLoginDto;
+import hrms.entities.dtos.request.UserLoginDto;
 
 import java.util.List;
 

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/jobAdvertisements")
 public class JobAdvertisementsController {
 
-    private JobAdvertisementService jobAdvertisementService;
+    private final JobAdvertisementService jobAdvertisementService;
 
     public JobAdvertisementsController(JobAdvertisementService jobAdvertisementService) {
         this.jobAdvertisementService = jobAdvertisementService;
@@ -24,7 +24,7 @@ public class JobAdvertisementsController {
 
     @GetMapping("/getAll")
     public ResponseEntity<?> getAllAdvertisement() {
-        return ResponseEntity.ok(this.jobAdvertisementService.getAllAdvertisement());
+        return ResponseEntity.ok(this.jobAdvertisementService.getAll());
     }
 
     @GetMapping("/getByJobStatus")
