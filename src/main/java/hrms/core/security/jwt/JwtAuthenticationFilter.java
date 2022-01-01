@@ -3,7 +3,7 @@ package hrms.core.security.jwt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hrms.business.concretes.UserManager;
 import hrms.core.security.AppUserDetails;
-import hrms.entities.dtos.UserLoginDto;
+import hrms.entities.dtos.request.UserLoginDto;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
