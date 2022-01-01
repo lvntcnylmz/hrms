@@ -40,7 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), this.userManager, this.jwtUtil))
                 .authorizeRequests()
-                .antMatchers("/api/auth/login", "/swagger-ui/**").permitAll()
+                .antMatchers("/api/auth/login", "/api/employers/add", "api/jobSeekers/add", "/swagger-ui/**").permitAll()
                 .antMatchers("/api/jobSeekers/getAll").hasAnyAuthority("ADMIN")
                 .antMatchers("/api/employers/getAll").hasAnyAuthority("USER")
                 .anyRequest().authenticated();
@@ -69,5 +69,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/v2/api-docs",
+                "/configuration/ui",
+                "/swagger-resources/**",
+                "/configuration/security",
+                "/swagger-ui.html",
+                "/webjars/**");
+    }
 }
