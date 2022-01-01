@@ -1,20 +1,17 @@
 package hrms.business.concretes;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import hrms.business.abstracts.LanguageService;
 import hrms.core.utils.results.Result;
 import hrms.core.utils.results.SuccessDataResult;
 import hrms.dataAccess.abstracts.LanguageDao;
 import hrms.entities.concretes.Language;
+import org.springframework.stereotype.Service;
 
 @Service
 public class LanguageManager implements LanguageService {
 
-    private LanguageDao languageDao;
+    private final LanguageDao languageDao;
 
-    @Autowired
     public LanguageManager(LanguageDao languageDao) {
         this.languageDao = languageDao;
     }
@@ -23,5 +20,5 @@ public class LanguageManager implements LanguageService {
     public Result add(Language language) {
         return new SuccessDataResult<Language>(this.languageDao.save(language), "Language was saved.");
     }
-    
+
 }

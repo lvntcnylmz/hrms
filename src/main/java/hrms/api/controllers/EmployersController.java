@@ -43,7 +43,7 @@ public class EmployersController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable int id) {
+    public ResponseEntity<?> getById(@PathVariable Integer id) {
         DataResult<Employer> employer = this.employerService.getById(id);
         EmployerResponseDto employerResponse = this.modelMapper.map(employer.getData(), EmployerResponseDto.class);
         return ResponseEntity.ok().body(employerResponse);

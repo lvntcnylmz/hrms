@@ -30,8 +30,8 @@ public class JobPositionsController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Integer jobId) {
-        return ResponseEntity.ok(this.jobPositionsService.getById(jobId));
+    public ResponseEntity<?> getById(@PathVariable Integer id) {
+        return ResponseEntity.ok(this.jobPositionsService.getById(id));
     }
 
 }

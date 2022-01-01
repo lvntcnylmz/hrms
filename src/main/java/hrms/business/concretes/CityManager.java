@@ -1,23 +1,20 @@
 package hrms.business.concretes;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import hrms.business.abstracts.CityService;
 import hrms.core.utils.results.DataResult;
 import hrms.core.utils.results.Result;
 import hrms.core.utils.results.SuccessDataResult;
 import hrms.dataAccess.abstracts.CityDao;
 import hrms.entities.concretes.City;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CityManager implements CityService {
 
-    private CityDao cityDao;
+    private final CityDao cityDao;
 
-    @Autowired
     public CityManager(CityDao cityDao) {
         this.cityDao = cityDao;
     }

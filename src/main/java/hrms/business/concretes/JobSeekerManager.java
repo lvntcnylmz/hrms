@@ -15,7 +15,6 @@ import hrms.entities.concretes.Role;
 import hrms.exceptions.EmailAlreadyExistsException;
 import hrms.exceptions.NationalIdAlreadyExistsException;
 import hrms.exceptions.UserNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +31,6 @@ public class JobSeekerManager implements JobSeekerService {
     private final MernisVerificationService mernisVerificationService;
     private final PasswordEncoder passwordEncoder;
 
-    @Autowired
     public JobSeekerManager(JobSeekerDao jobSeekerDao,
                             UserDao userDao,
                             RoleDao roleDao,

@@ -11,7 +11,6 @@ import hrms.entities.concretes.Employer;
 import hrms.entities.concretes.Role;
 import hrms.exceptions.JobNotFoundException;
 import hrms.exceptions.UserNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +27,6 @@ public class EmployerManager implements EmployerService {
     private final PasswordEncoder passwordEncoder;
     private final RoleDao roleDao;
 
-    @Autowired
     public EmployerManager(EmployerDao employerDao,
                            UserDao userDao, RoleDao roleDao,
                            EmailVerification emailVerification,

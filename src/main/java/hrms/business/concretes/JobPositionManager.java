@@ -6,7 +6,6 @@ import hrms.core.utils.results.*;
 import hrms.dataAccess.abstracts.JobPositionDao;
 import hrms.entities.concretes.JobPosition;
 import hrms.exceptions.JobNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,9 +13,8 @@ import java.util.List;
 @Service
 public class JobPositionManager implements JobPositionsService {
 
-    private JobPositionDao jobPositionDao;
+    private final JobPositionDao jobPositionDao;
 
-    @Autowired
     public JobPositionManager(JobPositionDao jobPositionDao) {
         this.jobPositionDao = jobPositionDao;
     }
@@ -38,9 +36,9 @@ public class JobPositionManager implements JobPositionsService {
     }
 
     @Override
-    public DataResult<JobPosition> getById(int jobId) {
-        return new SuccessDataResult<JobPosition>(this.jobPositionDao.findById(jobId)
-                .orElseThrow(() -> new JobNotFoundException("Job could not find by id:" + jobId))
+    public DataResult<JobPosition> getById(Integer id) {
+        return new SuccessDataResult<JobPosition>(this.jobPositionDao.findById(id)
+                .orElseThrow(() -> new JobNotFoundException("Job could not find by id:" + id))
                 , "Job position found.");
     }
 
