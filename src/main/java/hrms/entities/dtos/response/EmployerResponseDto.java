@@ -1,4 +1,4 @@
-package hrms.entities.dtos;
+package hrms.entities.dtos.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmployerRegisterDto {
+public class EmployerResponseDto {
 
+    private String userId;
     private String email;
-    private String password;
     private String companyName;
     private String webSite;
     private String phoneNumber;

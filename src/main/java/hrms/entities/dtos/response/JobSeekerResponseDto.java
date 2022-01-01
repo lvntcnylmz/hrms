@@ -1,4 +1,4 @@
-package hrms.entities.dtos;
+package hrms.entities.dtos.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,13 +7,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobSeekerRegisterDto {
+public class JobSeekerResponseDto {
 
+    private String userId;
+    private String email;
     private String firstName;
     private String lastName;
-    private String yearOfBirth;
+    private String dateOfBirth;
     private String nationalId;
-    private String email;
-    private String password;
 
 }
