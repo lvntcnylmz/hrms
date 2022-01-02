@@ -9,7 +9,6 @@ import hrms.core.utils.results.SuccessResult;
 import hrms.core.verifications.abstracts.MernisVerificationService;
 import hrms.dataAccess.abstracts.JobSeekerDao;
 import hrms.dataAccess.abstracts.RoleDao;
-import hrms.dataAccess.abstracts.UserDao;
 import hrms.entities.concretes.JobSeeker;
 import hrms.entities.concretes.Role;
 import hrms.entities.dtos.response.JobSeekerResponseDto;
@@ -29,20 +28,17 @@ import java.util.List;
 public class JobSeekerManager implements JobSeekerService {
 
     private final JobSeekerDao jobSeekerDao;
-    private final UserDao userDao;
     private final RoleDao roleDao;
     private final MernisVerificationService mernisVerificationService;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
 
     public JobSeekerManager(JobSeekerDao jobSeekerDao,
-                            UserDao userDao,
                             RoleDao roleDao,
                             MernisVerificationService mernisVerificationService,
                             PasswordEncoder passwordEncoder,
                             ModelMapper modelMapper) {
         this.jobSeekerDao = jobSeekerDao;
-        this.userDao = userDao;
         this.roleDao = roleDao;
         this.mernisVerificationService = mernisVerificationService;
         this.passwordEncoder = passwordEncoder;
@@ -73,7 +69,6 @@ public class JobSeekerManager implements JobSeekerService {
     public Result delete(Integer id) {
         if (this.jobSeekerDao.existsById(id)) {
             this.jobSeekerDao.delete(this.jobSeekerDao.getById(id));
-            this.userDao.deleteById(id);
             return new SuccessResult("User deleted");
         }
         throw new UserNotFoundException("User not found by id");

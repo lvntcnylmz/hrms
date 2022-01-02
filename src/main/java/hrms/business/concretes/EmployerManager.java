@@ -6,7 +6,6 @@ import hrms.core.utils.results.*;
 import hrms.core.verifications.concretes.EmailVerification;
 import hrms.dataAccess.abstracts.EmployerDao;
 import hrms.dataAccess.abstracts.RoleDao;
-import hrms.dataAccess.abstracts.UserDao;
 import hrms.entities.concretes.Employer;
 import hrms.entities.concretes.Role;
 import hrms.entities.dtos.request.EmployerRegisterDto;
@@ -25,19 +24,17 @@ import java.util.List;
 public class EmployerManager implements EmployerService {
 
     private final EmployerDao employerDao;
-    private final UserDao userDao;
     private final EmailVerification emailVerification;
     private final PasswordEncoder passwordEncoder;
     private final RoleDao roleDao;
     private final ModelMapper modelMapper;
 
     public EmployerManager(EmployerDao employerDao,
-                           UserDao userDao, RoleDao roleDao,
+                           RoleDao roleDao,
                            EmailVerification emailVerification,
                            PasswordEncoder passwordEncoder,
                            ModelMapper modelMapper) {
         this.employerDao = employerDao;
-        this.userDao = userDao;
         this.roleDao = roleDao;
         this.emailVerification = emailVerification;
         this.passwordEncoder = passwordEncoder;
@@ -57,7 +54,7 @@ public class EmployerManager implements EmployerService {
 
         employer.setRoles(addRoleToEmployer());
         employer.setPassword(this.passwordEncoder.encode(employer.getPassword()));
-        this.userDao.save(employer);
+        this.employerDao.save(employer);
         EmployerRegisterDto employerRequest = this.modelMapper.map(employer, EmployerRegisterDto.class);
 
         return new SuccessDataResult<>(employerRequest, "Employer information was saved.");
@@ -67,7 +64,6 @@ public class EmployerManager implements EmployerService {
     public Result delete(Integer id) {
         if (this.employerDao.existsById(id)) {
             this.employerDao.delete(this.employerDao.getById(id));
-            this.userDao.deleteById(id);
             return new SuccessResult("User deleted");
         }
         throw new UserNotFoundException("User not found by id");

@@ -6,7 +6,7 @@ import hrms.core.utils.results.Result;
 import hrms.core.utils.results.SuccessDataResult;
 import hrms.dataAccess.abstracts.JobAdvertisementDao;
 import hrms.entities.concretes.JobAdvertisement;
-import hrms.entities.dtos.JobAdvertisementDto;
+import hrms.entities.dtos.response.JobAdvertisementDto;
 import hrms.exceptions.JobNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

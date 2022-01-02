@@ -1,11 +1,6 @@
 package hrms.entities.concretes;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -20,7 +15,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper=false)
 @PrimaryKeyJoinColumn(name = "user_id")
 @Table(name = "JobSeekers")
 public class JobSeeker extends User{
@@ -42,8 +36,7 @@ public class JobSeeker extends User{
     @Column
     private String dateOfBirth;
 
-    
-    @OneToOne(mappedBy = "jobSeeker")
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "resume_id")
     private Resume resume;
 
