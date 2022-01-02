@@ -42,7 +42,7 @@ public class JobSeeker extends User{
     @Column
     private String dateOfBirth;
 
-    @JsonIgnore
+    
     @OneToOne(mappedBy = "jobSeeker")
     @JoinColumn(name = "resume_id")
     private Resume resume;
