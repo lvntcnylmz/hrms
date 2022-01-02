@@ -3,7 +3,6 @@ package hrms.core.security;
 import hrms.business.concretes.UserManager;
 import hrms.core.security.jwt.JwtAuthorizationFilter;
 import hrms.core.security.jwt.JwtUtil;
-import hrms.dataAccess.abstracts.UserDao;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -22,14 +21,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final UserManager userManager;
-    private final UserDao userDao;
     private final JwtUtil jwtUtil;
 
 
-    public SecurityConfiguration(UserManager userManager, UserDao userDao, JwtUtil jwtUtil) {
+    public SecurityConfiguration(UserManager userManager, JwtUtil jwtUtil) {
         this.userManager = userManager;
-        this.userDao = userDao;
-
         this.jwtUtil = jwtUtil;
     }
 
@@ -73,10 +69,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/v2/api-docs",
-                "/configuration/ui",
-                "/swagger-resources/**",
-                "/configuration/security",
-                "/swagger-ui.html",
-                "/webjars/**");
+                        "/configuration/ui",
+                        "/swagger-resources/**",
+                        "/configuration/security",
+                        "/swagger-ui.html",
+                        "/webjars/**");
     }
 }
