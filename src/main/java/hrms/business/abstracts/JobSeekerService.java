@@ -3,6 +3,7 @@ package hrms.business.abstracts;
 import hrms.core.utils.results.DataResult;
 import hrms.core.utils.results.Result;
 import hrms.entities.concretes.JobSeeker;
+import hrms.entities.dtos.response.JobSeekerResponseDto;
 
 import java.util.List;
 
@@ -12,8 +13,8 @@ public interface JobSeekerService {
 
     Result delete(Integer id);
 
-    DataResult<List<JobSeeker>> getAll();
+    DataResult<List<JobSeekerResponseDto>> getAll();
 
-    DataResult<JobSeeker> getById(Integer id);
+    DataResult<JobSeekerResponseDto> getById(Integer id);
 
 }

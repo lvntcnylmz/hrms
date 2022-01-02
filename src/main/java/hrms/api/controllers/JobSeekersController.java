@@ -1,10 +1,8 @@
 package hrms.api.controllers;
 
 import hrms.business.abstracts.JobSeekerService;
-import hrms.core.utils.results.DataResult;
 import hrms.entities.concretes.JobSeeker;
 import hrms.entities.dtos.request.JobSeekerRegisterDto;
-import hrms.entities.dtos.response.JobSeekerResponseDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,15 +35,11 @@ public class JobSeekersController {
 
     @GetMapping
     public ResponseEntity<?> getAll() {
-        return ResponseEntity.ok(this.jobSeekerService.getAll().getData()
-                .stream()
-                .map(jobSeeker -> this.modelMapper.map(jobSeeker, JobSeekerResponseDto.class)));
+        return ResponseEntity.ok(this.jobSeekerService.getAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Integer id) {
-        DataResult<JobSeeker> jobSeeker = this.jobSeekerService.getById(id);
-        JobSeekerResponseDto jobSeekerResponse = this.modelMapper.map(jobSeeker.getData(), JobSeekerResponseDto.class);
-        return ResponseEntity.ok().body(jobSeekerResponse);
+        return ResponseEntity.ok(this.jobSeekerService.getById(id));
     }
 }

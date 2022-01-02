@@ -12,8 +12,7 @@ import java.util.Date;
 public class JobAdvertisementDto {
 
     private Integer id;
-    private Integer jobId;
-    private String companyName;
+    private String employerName;
     private String jobTitle;
     private Boolean jobStatus;
     private Date applicationDeadline;

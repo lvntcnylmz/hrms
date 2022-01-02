@@ -3,6 +3,7 @@ package hrms.business.abstracts;
 import hrms.core.utils.results.DataResult;
 import hrms.core.utils.results.Result;
 import hrms.entities.concretes.Employer;
+import hrms.entities.dtos.response.EmployerResponseDto;
 
 import java.util.List;
 
@@ -12,8 +13,8 @@ public interface EmployerService {
 
     Result delete(Integer id);
 
-    DataResult<List<Employer>> getAll();
+    DataResult<List<EmployerResponseDto>> getAll();
 
-    DataResult<Employer> getById(int id);
+    DataResult<EmployerResponseDto> getById(Integer id);
 
 }

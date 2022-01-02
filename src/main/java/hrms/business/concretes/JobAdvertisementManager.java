@@ -7,6 +7,7 @@ import hrms.core.utils.results.SuccessDataResult;
 import hrms.dataAccess.abstracts.JobAdvertisementDao;
 import hrms.entities.concretes.JobAdvertisement;
 import hrms.entities.dtos.JobAdvertisementDto;
+import hrms.exceptions.JobNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -29,29 +30,55 @@ public class JobAdvertisementManager implements JobAdvertisementService {
     }
 
     @Override
-    public DataResult<List<JobAdvertisement>> getAll() {
-        JobAdvertisementDto jobAdvertisementDto = this.modelMapper.map(new JobAdvertisement(), JobAdvertisementDto.class);
-        return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.findAll(), "Job advertisement listed.");
+    public DataResult<List<JobAdvertisementDto>> getAll() {
+
+        List<JobAdvertisementDto> jobAdvertisementDtos = this.jobAdvertisementDao.findAll()
+                .stream()
+                .map(jobAdvertisement -> this.modelMapper.map(jobAdvertisement, JobAdvertisementDto.class))
+                .toList();
+
+        return new SuccessDataResult<>(jobAdvertisementDtos, "Job advertisements are listed.");
     }
 
     @Override
     public DataResult<List<JobAdvertisementDto>> getByJobStatus() {
-        return new SuccessDataResult<List<JobAdvertisementDto>>(this.jobAdvertisementDao.findByStatus(), "Job advertisement listed.");
+
+        List<JobAdvertisementDto> jobAdvertisements = this.jobAdvertisementDao.findByStatusTrue()
+                .stream()
+                .map(jobAdvertisement -> this.modelMapper.map(jobAdvertisement, JobAdvertisementDto.class)).toList();
+
+        return new SuccessDataResult<>(jobAdvertisements, "Job advertisements are listed.");
     }
 
     @Override
     public DataResult<List<JobAdvertisementDto>> getByDate() {
-        return new SuccessDataResult<List<JobAdvertisementDto>>(this.jobAdvertisementDao.findByDate(), "Job advertisement listed.");
+
+        List<JobAdvertisementDto> jobAdvertisements = this.jobAdvertisementDao.findByOrderByApplicationDeadlineAsc()
+                .stream()
+                .map(jobAdvertisement -> this.modelMapper.map(jobAdvertisement, JobAdvertisementDto.class))
+                .toList();
+
+        return new SuccessDataResult<>(jobAdvertisements, "Job advertisements are listed.");
     }
 
     @Override
     public DataResult<List<JobAdvertisementDto>> getByCompanyName(String companyName) {
-        return new SuccessDataResult<List<JobAdvertisementDto>>(this.jobAdvertisementDao.findByCompany(companyName), "Job advertisement listed.");
+
+        List<JobAdvertisementDto> jobAdvertisements = this.jobAdvertisementDao.findByEmployer(companyName)
+                .stream()
+                .map(jobAdvertisement -> this.modelMapper.map(jobAdvertisement, JobAdvertisementDto.class))
+                .toList();
+
+        return new SuccessDataResult<>(jobAdvertisements, "Job advertisements are listed.");
     }
 
     @Override
-    public DataResult<JobAdvertisementDto> getJobById(Integer id) {
-        return new SuccessDataResult<JobAdvertisementDto>(this.jobAdvertisementDao.findJobById(id).orElseThrow(), "Job advertisement listed.");
+    public DataResult<JobAdvertisementDto> getById(Integer id) {
+
+        JobAdvertisement jobAdvertisement = this.jobAdvertisementDao.findById(id).orElseThrow(() -> new JobNotFoundException("Not found by Id"));
+        JobAdvertisementDto jobAdvertisementDto = this.modelMapper.map(jobAdvertisement, JobAdvertisementDto.class);
+
+        return new SuccessDataResult<>(jobAdvertisementDto, "Job advertisement found by Id.");
     }
 
 }

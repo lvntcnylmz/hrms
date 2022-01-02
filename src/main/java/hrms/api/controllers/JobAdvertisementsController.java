@@ -2,6 +2,7 @@ package hrms.api.controllers;
 
 import hrms.business.abstracts.JobAdvertisementService;
 import hrms.entities.concretes.JobAdvertisement;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,9 +13,11 @@ import org.springframework.web.bind.annotation.*;
 public class JobAdvertisementsController {
 
     private final JobAdvertisementService jobAdvertisementService;
+    private final ModelMapper modelMapper;
 
-    public JobAdvertisementsController(JobAdvertisementService jobAdvertisementService) {
+    public JobAdvertisementsController(JobAdvertisementService jobAdvertisementService, ModelMapper modelMapper) {
         this.jobAdvertisementService = jobAdvertisementService;
+        this.modelMapper = modelMapper;
     }
 
     @PostMapping("/add")
@@ -23,7 +26,7 @@ public class JobAdvertisementsController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllAdvertisement() {
+    public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(this.jobAdvertisementService.getAll());
     }
 
@@ -37,14 +40,14 @@ public class JobAdvertisementsController {
         return ResponseEntity.ok(this.jobAdvertisementService.getByDate());
     }
 
-    @GetMapping("/{companyName}")
+    @GetMapping("company/{companyName}")
     public ResponseEntity<?> getByCompany(@PathVariable String companyName) {
         return ResponseEntity.ok(this.jobAdvertisementService.getByCompanyName(companyName));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getByJobId(@PathVariable Integer id) {
-        return ResponseEntity.ok(this.jobAdvertisementService.getJobById(id));
+    public ResponseEntity<?> getById(@PathVariable Integer id) {
+        return ResponseEntity.ok(this.jobAdvertisementService.getById(id));
     }
 
 }

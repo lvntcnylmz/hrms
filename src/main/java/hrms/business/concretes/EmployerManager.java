@@ -9,8 +9,11 @@ import hrms.dataAccess.abstracts.RoleDao;
 import hrms.dataAccess.abstracts.UserDao;
 import hrms.entities.concretes.Employer;
 import hrms.entities.concretes.Role;
+import hrms.entities.dtos.request.EmployerRegisterDto;
+import hrms.entities.dtos.response.EmployerResponseDto;
 import hrms.exceptions.JobNotFoundException;
 import hrms.exceptions.UserNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,16 +29,19 @@ public class EmployerManager implements EmployerService {
     private final EmailVerification emailVerification;
     private final PasswordEncoder passwordEncoder;
     private final RoleDao roleDao;
+    private final ModelMapper modelMapper;
 
     public EmployerManager(EmployerDao employerDao,
                            UserDao userDao, RoleDao roleDao,
                            EmailVerification emailVerification,
-                           PasswordEncoder passwordEncoder) {
+                           PasswordEncoder passwordEncoder,
+                           ModelMapper modelMapper) {
         this.employerDao = employerDao;
         this.userDao = userDao;
         this.roleDao = roleDao;
         this.emailVerification = emailVerification;
         this.passwordEncoder = passwordEncoder;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -51,7 +57,10 @@ public class EmployerManager implements EmployerService {
 
         employer.setRoles(addRoleToEmployer());
         employer.setPassword(this.passwordEncoder.encode(employer.getPassword()));
-        return new SuccessDataResult<Employer>(this.employerDao.save(employer), "Employer information was saved.");
+        this.userDao.save(employer);
+        EmployerRegisterDto employerRequest = this.modelMapper.map(employer, EmployerRegisterDto.class);
+
+        return new SuccessDataResult<>(employerRequest, "Employer information was saved.");
     }
 
     @Override
@@ -65,14 +74,23 @@ public class EmployerManager implements EmployerService {
     }
 
     @Override
-    public DataResult<List<Employer>> getAll() {
-        return new SuccessDataResult<List<Employer>>(this.employerDao.findAll(), "Employers are listed.");
+    public DataResult<List<EmployerResponseDto>> getAll() {
+
+        List<EmployerResponseDto> employers = this.employerDao.findAll()
+                .stream()
+                .map(employer -> this.modelMapper.map(employer, EmployerResponseDto.class))
+                .toList();
+
+        return new SuccessDataResult<>(employers, "Employers are listed.");
     }
 
     @Override
-    public DataResult<Employer> getById(int id) {
-        return new SuccessDataResult<Employer>(this.employerDao.findById(id)
-                .orElseThrow(() -> new JobNotFoundException("Not Found")), "Employer found by id.");
+    public DataResult<EmployerResponseDto> getById(Integer id) {
+
+        Employer employer = this.employerDao.findById(id).orElseThrow(() -> new JobNotFoundException("Not Found by Id"));
+        EmployerResponseDto employerResponse = this.modelMapper.map(employer, EmployerResponseDto.class);
+
+        return new SuccessDataResult<>(employerResponse, "Employer found by id.");
     }
 
     private Result checkIfEmailExists(String email) {

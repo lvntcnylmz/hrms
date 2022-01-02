@@ -12,9 +12,12 @@ import hrms.dataAccess.abstracts.RoleDao;
 import hrms.dataAccess.abstracts.UserDao;
 import hrms.entities.concretes.JobSeeker;
 import hrms.entities.concretes.Role;
+import hrms.entities.dtos.response.JobSeekerResponseDto;
 import hrms.exceptions.EmailAlreadyExistsException;
+import hrms.exceptions.JobNotFoundException;
 import hrms.exceptions.NationalIdAlreadyExistsException;
 import hrms.exceptions.UserNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,17 +33,20 @@ public class JobSeekerManager implements JobSeekerService {
     private final RoleDao roleDao;
     private final MernisVerificationService mernisVerificationService;
     private final PasswordEncoder passwordEncoder;
+    private final ModelMapper modelMapper;
 
     public JobSeekerManager(JobSeekerDao jobSeekerDao,
                             UserDao userDao,
                             RoleDao roleDao,
                             MernisVerificationService mernisVerificationService,
-                            PasswordEncoder passwordEncoder) {
+                            PasswordEncoder passwordEncoder,
+                            ModelMapper modelMapper) {
         this.jobSeekerDao = jobSeekerDao;
         this.userDao = userDao;
         this.roleDao = roleDao;
         this.mernisVerificationService = mernisVerificationService;
         this.passwordEncoder = passwordEncoder;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -57,7 +63,10 @@ public class JobSeekerManager implements JobSeekerService {
 
         jobSeeker.setRoles(addRoleToJobSeeker());
         jobSeeker.setPassword(this.passwordEncoder.encode(jobSeeker.getPassword()));
-        return new SuccessDataResult<JobSeeker>(this.jobSeekerDao.save(jobSeeker), "User information is valid. User was saved.");
+        this.jobSeekerDao.save(jobSeeker);
+        JobSeekerResponseDto jobSeekerResponseDto = this.modelMapper.map(jobSeeker, JobSeekerResponseDto.class);
+
+        return new SuccessDataResult<>(jobSeekerResponseDto, "User information is valid. User was saved.");
     }
 
     @Override
@@ -71,13 +80,23 @@ public class JobSeekerManager implements JobSeekerService {
     }
 
     @Override
-    public DataResult<List<JobSeeker>> getAll() {
-        return new SuccessDataResult<List<JobSeeker>>(this.jobSeekerDao.findAll(), "Candidates are listed.");
+    public DataResult<List<JobSeekerResponseDto>> getAll() {
+
+        List<JobSeekerResponseDto> jobSeekers = this.jobSeekerDao.findAll()
+                .stream()
+                .map(jobSeeker -> this.modelMapper.map(jobSeeker, JobSeekerResponseDto.class))
+                .toList();
+
+        return new SuccessDataResult<>(jobSeekers, "Candidates are listed.");
     }
 
     @Override
-    public DataResult<JobSeeker> getById(Integer id) {
-        return new SuccessDataResult<JobSeeker>(this.jobSeekerDao.findById(id).orElseThrow(), "Job Seeker found by id.");
+    public DataResult<JobSeekerResponseDto> getById(Integer id) {
+
+        JobSeeker jobSeeker = this.jobSeekerDao.findById(id).orElseThrow(() -> new JobNotFoundException("Not found by Id"));
+        JobSeekerResponseDto jobSeekerResponseDto = this.modelMapper.map(jobSeeker, JobSeekerResponseDto.class);
+
+        return new SuccessDataResult<>(jobSeekerResponseDto, "Job Seeker found by id.");
     }
 
     private Result checkIfNationalIdAlreadyExists(JobSeeker jobSeeker) {
