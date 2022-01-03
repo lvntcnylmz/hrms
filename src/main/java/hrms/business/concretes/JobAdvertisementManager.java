@@ -7,7 +7,7 @@ import hrms.core.utils.results.SuccessDataResult;
 import hrms.dataAccess.abstracts.JobAdvertisementDao;
 import hrms.entities.concretes.JobAdvertisement;
 import hrms.entities.dtos.response.JobAdvertisementDto;
-import hrms.exceptions.JobNotFoundException;
+import hrms.exceptions.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -64,7 +64,7 @@ public class JobAdvertisementManager implements JobAdvertisementService {
     @Override
     public DataResult<List<JobAdvertisementDto>> getByCompanyName(String companyName) {
 
-        List<JobAdvertisementDto> jobAdvertisements = this.jobAdvertisementDao.findByEmployer(companyName)
+        List<JobAdvertisementDto> jobAdvertisements = this.jobAdvertisementDao.findByEmployerCompanyName(companyName)
                 .stream()
                 .map(jobAdvertisement -> this.modelMapper.map(jobAdvertisement, JobAdvertisementDto.class))
                 .toList();
@@ -75,7 +75,7 @@ public class JobAdvertisementManager implements JobAdvertisementService {
     @Override
     public DataResult<JobAdvertisementDto> getById(Integer id) {
 
-        JobAdvertisement jobAdvertisement = this.jobAdvertisementDao.findById(id).orElseThrow(() -> new JobNotFoundException("Not found by Id"));
+        JobAdvertisement jobAdvertisement = this.jobAdvertisementDao.findById(id).orElseThrow(() -> new EntityNotFoundException("Not found by Id"));
         JobAdvertisementDto jobAdvertisementDto = this.modelMapper.map(jobAdvertisement, JobAdvertisementDto.class);
 
         return new SuccessDataResult<>(jobAdvertisementDto, "Job advertisement found by Id.");

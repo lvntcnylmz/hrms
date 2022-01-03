@@ -1,9 +1,7 @@
 package hrms.api.controllers;
 
 import hrms.business.abstracts.JobSeekerService;
-import hrms.entities.concretes.JobSeeker;
 import hrms.entities.dtos.request.JobSeekerRegisterDto;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,17 +13,14 @@ import javax.validation.Valid;
 public class JobSeekersController {
 
     private final JobSeekerService jobSeekerService;
-    private final ModelMapper modelMapper;
 
-    public JobSeekersController(JobSeekerService jobSeekerService, ModelMapper modelMapper) {
+    public JobSeekersController(JobSeekerService jobSeekerService) {
         this.jobSeekerService = jobSeekerService;
-        this.modelMapper = modelMapper;
     }
 
     @PostMapping("/add")
     public ResponseEntity<?> add(@Valid @RequestBody JobSeekerRegisterDto jobSeeker) {
-        JobSeeker jobSeekerRegister = this.modelMapper.map(jobSeeker, JobSeeker.class);
-        return ResponseEntity.ok(this.jobSeekerService.add(jobSeekerRegister));
+        return ResponseEntity.ok(this.jobSeekerService.add(jobSeeker));
     }
 
     @DeleteMapping("/{id}")

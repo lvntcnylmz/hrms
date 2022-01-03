@@ -11,11 +11,11 @@ import hrms.dataAccess.abstracts.JobSeekerDao;
 import hrms.dataAccess.abstracts.RoleDao;
 import hrms.entities.concretes.JobSeeker;
 import hrms.entities.concretes.Role;
+import hrms.entities.dtos.request.JobSeekerRegisterDto;
 import hrms.entities.dtos.response.JobSeekerResponseDto;
 import hrms.exceptions.EmailAlreadyExistsException;
-import hrms.exceptions.JobNotFoundException;
+import hrms.exceptions.EntityNotFoundException;
 import hrms.exceptions.NationalIdAlreadyExistsException;
-import hrms.exceptions.UserNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -46,23 +46,25 @@ public class JobSeekerManager implements JobSeekerService {
     }
 
     @Override
-    public Result add(JobSeeker jobSeeker) {
+    public Result add(JobSeekerRegisterDto jobSeeker) {
+
+        JobSeeker jobSeekerRequest = this.modelMapper.map(jobSeeker, JobSeeker.class);
 
         Result result = BusinessRules.Run(
-                this.mernisVerificationService.checkIfRealPerson(jobSeeker),
-                this.checkIfNationalIdAlreadyExists(jobSeeker),
-                this.checkIfEmailAlreadyExists(jobSeeker));
+                this.mernisVerificationService.checkIfRealPerson(jobSeekerRequest),
+                this.checkIfNationalIdAlreadyExists(jobSeekerRequest),
+                this.checkIfEmailAlreadyExists(jobSeekerRequest));
 
         if (result != null) {
             return result;
         }
 
-        jobSeeker.setRoles(addRoleToJobSeeker());
-        jobSeeker.setPassword(this.passwordEncoder.encode(jobSeeker.getPassword()));
-        this.jobSeekerDao.save(jobSeeker);
-        JobSeekerResponseDto jobSeekerResponseDto = this.modelMapper.map(jobSeeker, JobSeekerResponseDto.class);
+        jobSeekerRequest.setRoles(addRoleToJobSeeker());
+        jobSeekerRequest.setPassword(this.passwordEncoder.encode(jobSeeker.getPassword()));
+        jobSeekerRequest = this.jobSeekerDao.save(jobSeekerRequest);
+        JobSeekerResponseDto jobSeekerResponse = this.modelMapper.map(jobSeekerRequest, JobSeekerResponseDto.class);
 
-        return new SuccessDataResult<>(jobSeekerResponseDto, "User information is valid. User was saved.");
+        return new SuccessDataResult<>(jobSeekerResponse, "User information is valid. User was saved.");
     }
 
     @Override
@@ -71,7 +73,7 @@ public class JobSeekerManager implements JobSeekerService {
             this.jobSeekerDao.delete(this.jobSeekerDao.getById(id));
             return new SuccessResult("User deleted");
         }
-        throw new UserNotFoundException("User not found by id");
+        throw new EntityNotFoundException("User not found by id");
     }
 
     @Override
@@ -88,7 +90,7 @@ public class JobSeekerManager implements JobSeekerService {
     @Override
     public DataResult<JobSeekerResponseDto> getById(Integer id) {
 
-        JobSeeker jobSeeker = this.jobSeekerDao.findById(id).orElseThrow(() -> new JobNotFoundException("Not found by Id"));
+        JobSeeker jobSeeker = this.jobSeekerDao.findById(id).orElseThrow(() -> new EntityNotFoundException("Not found by Id"));
         JobSeekerResponseDto jobSeekerResponseDto = this.modelMapper.map(jobSeeker, JobSeekerResponseDto.class);
 
         return new SuccessDataResult<>(jobSeekerResponseDto, "Job Seeker found by id.");

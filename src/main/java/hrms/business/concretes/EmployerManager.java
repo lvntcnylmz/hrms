@@ -10,8 +10,7 @@ import hrms.entities.concretes.Employer;
 import hrms.entities.concretes.Role;
 import hrms.entities.dtos.request.EmployerRegisterDto;
 import hrms.entities.dtos.response.EmployerResponseDto;
-import hrms.exceptions.JobNotFoundException;
-import hrms.exceptions.UserNotFoundException;
+import hrms.exceptions.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -42,22 +41,24 @@ public class EmployerManager implements EmployerService {
     }
 
     @Override
-    public Result add(Employer employer) {
+    public Result add(EmployerRegisterDto employer) {
+
+        Employer employerRequest = this.modelMapper.map(employer, Employer.class);
 
         var result = BusinessRules.Run(
-                this.emailVerification.verifyEmail(employer.getEmail()),
-                this.checkIfEmailExists(employer.getEmail()));
+                this.emailVerification.verifyEmail(employerRequest.getEmail()),
+                this.checkIfEmailExists(employerRequest.getEmail()));
 
         if (result != null) {
             return result;
         }
 
-        employer.setRoles(addRoleToEmployer());
-        employer.setPassword(this.passwordEncoder.encode(employer.getPassword()));
-        this.employerDao.save(employer);
-        EmployerRegisterDto employerRequest = this.modelMapper.map(employer, EmployerRegisterDto.class);
+        employerRequest.setRoles(addRoleToEmployer());
+        employerRequest.setPassword(this.passwordEncoder.encode(employer.getPassword()));
+        this.employerDao.save(employerRequest);
+        EmployerResponseDto employerResponse = this.modelMapper.map(employerRequest, EmployerResponseDto.class);
 
-        return new SuccessDataResult<>(employerRequest, "Employer information was saved.");
+        return new SuccessDataResult<>(employerResponse, "Employer information was saved.");
     }
 
     @Override
@@ -66,7 +67,7 @@ public class EmployerManager implements EmployerService {
             this.employerDao.delete(this.employerDao.getById(id));
             return new SuccessResult("User deleted");
         }
-        throw new UserNotFoundException("User not found by id");
+        throw new EntityNotFoundException("User not found by id");
     }
 
     @Override
@@ -83,7 +84,7 @@ public class EmployerManager implements EmployerService {
     @Override
     public DataResult<EmployerResponseDto> getById(Integer id) {
 
-        Employer employer = this.employerDao.findById(id).orElseThrow(() -> new JobNotFoundException("Not Found by Id"));
+        Employer employer = this.employerDao.findById(id).orElseThrow(() -> new EntityNotFoundException("Not Found by Id"));
         EmployerResponseDto employerResponse = this.modelMapper.map(employer, EmployerResponseDto.class);
 
         return new SuccessDataResult<>(employerResponse, "Employer found by id.");

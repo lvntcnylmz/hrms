@@ -5,7 +5,7 @@ import hrms.core.utils.businessRulesCheck.BusinessRules;
 import hrms.core.utils.results.*;
 import hrms.dataAccess.abstracts.JobPositionDao;
 import hrms.entities.concretes.JobPosition;
-import hrms.exceptions.JobNotFoundException;
+import hrms.exceptions.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,7 +38,7 @@ public class JobPositionManager implements JobPositionsService {
     @Override
     public DataResult<JobPosition> getById(Integer id) {
         return new SuccessDataResult<JobPosition>(this.jobPositionDao.findById(id)
-                .orElseThrow(() -> new JobNotFoundException("Job could not find by id:" + id))
+                .orElseThrow(() -> new EntityNotFoundException("Job could not find by id:" + id))
                 , "Job position found.");
     }
 

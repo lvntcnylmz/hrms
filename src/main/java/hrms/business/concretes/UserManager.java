@@ -10,8 +10,8 @@ import hrms.core.utils.results.SuccessDataResult;
 import hrms.dataAccess.abstracts.UserDao;
 import hrms.entities.concretes.User;
 import hrms.entities.dtos.request.UserLoginDto;
+import hrms.exceptions.EntityNotFoundException;
 import hrms.exceptions.IncorrectPasswordException;
-import hrms.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -77,7 +77,7 @@ public class UserManager implements UserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = this.userDao.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException("User could not found by email."));
+                .orElseThrow(() -> new EntityNotFoundException("User could not found by email."));
 
         return new AppUserDetails(user);
     }
