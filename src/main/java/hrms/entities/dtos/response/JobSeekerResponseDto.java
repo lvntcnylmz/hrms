@@ -16,6 +16,5 @@ public class JobSeekerResponseDto {
     private String lastName;
     private String dateOfBirth;
     private String nationalId;
-    private Resume resume;
 
 }
