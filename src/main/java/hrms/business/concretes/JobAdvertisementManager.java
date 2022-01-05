@@ -64,7 +64,7 @@ public class JobAdvertisementManager implements JobAdvertisementService {
     @Override
     public DataResult<List<JobAdvertisementDto>> getByCompanyName(String companyName) {
 
-        List<JobAdvertisementDto> jobAdvertisements = this.jobAdvertisementDao.findByEmployerCompanyName(companyName)
+        List<JobAdvertisementDto> jobAdvertisements = this.jobAdvertisementDao.findByEmployerCompanyNameAllIgnoreCase(companyName)
                 .stream()
                 .map(jobAdvertisement -> this.modelMapper.map(jobAdvertisement, JobAdvertisementDto.class))
                 .toList();

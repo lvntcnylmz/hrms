@@ -11,6 +11,6 @@ public interface JobAdvertisementDao extends JpaRepository<JobAdvertisement, Int
 
     List<JobAdvertisement> findByOrderByApplicationDeadlineAsc();
 
-    List<JobAdvertisement> findByEmployerCompanyName(String companyName);
+    List<JobAdvertisement> findByEmployerCompanyNameAllIgnoreCase(String companyName);
 
 }
