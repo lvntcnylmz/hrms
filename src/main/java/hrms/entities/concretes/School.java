@@ -1,16 +1,11 @@
 package hrms.entities.concretes;
 
-import java.time.LocalDate;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.repository.Temporal;
+
+import javax.persistence.*;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -18,7 +13,7 @@ import org.springframework.data.jpa.repository.Temporal;
 @NoArgsConstructor
 @Table(name = "schools")
 public class School {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "school_id")
@@ -38,10 +33,5 @@ public class School {
 
     @Column(name = "is_graduated")
     private boolean isGraduated;
-
-    @JsonIgnore
-    @ManyToOne()
-    @JoinColumn(name = "resume_id")
-    private Resume resume;
 
 }

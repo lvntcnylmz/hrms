@@ -26,26 +26,26 @@ public class Resume {
     @Column(name = "cover_letter")
     private String coverLetter;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "user_id")
     private JobSeeker jobSeeker;
 
-    @OneToMany(mappedBy = "resume")
+    @OneToMany
     private List<School> schools;
 
-    @OneToMany(mappedBy = "resume")
+    @OneToMany
     private List<JobExperience> jobExperiences;
 
-    @OneToMany(mappedBy = "resume")
+    @OneToMany
     private List<Language> languages;
 
-    @OneToMany(mappedBy = "resume")
+    @OneToMany
     private List<Skill> skills;
 
-    @OneToMany(mappedBy = "resume")
+    @OneToMany
     private List<Photo> photos;
 
-    @OneToMany(mappedBy = "resume")
+    @OneToMany
     private List<Contact> contacts;
 
 }

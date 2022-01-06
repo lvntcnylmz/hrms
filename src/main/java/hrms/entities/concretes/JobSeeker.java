@@ -1,15 +1,12 @@
 package hrms.entities.concretes;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 @Data
 @Entity
@@ -17,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @PrimaryKeyJoinColumn(name = "user_id")
 @Table(name = "JobSeekers")
-public class JobSeeker extends User{
+public class JobSeeker extends User {
 
     @NotNull(message = "First name cannot be empty.")
     @Column
@@ -36,7 +33,7 @@ public class JobSeeker extends User{
     @Column
     private String dateOfBirth;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "resume_id")
     private Resume resume;
 
