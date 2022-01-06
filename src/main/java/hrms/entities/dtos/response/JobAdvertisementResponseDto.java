@@ -4,18 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobAdvertisementDto {
+public class JobAdvertisementResponseDto {
 
     private Integer id;
     private String employerName;
     private String jobTitle;
     private Boolean jobStatus;
-    private Date applicationDeadline;
+    private LocalDate applicationDeadline;
     private Integer numberOfOpenPosition;
     private String cityName;
     private String description;
