@@ -2,23 +2,23 @@ package hrms.business.abstracts;
 
 import hrms.core.utils.results.DataResult;
 import hrms.core.utils.results.Result;
-import hrms.entities.concretes.JobAdvertisement;
-import hrms.entities.dtos.response.JobAdvertisementDto;
+import hrms.entities.dtos.request.JobAdvertisementRequestDto;
+import hrms.entities.dtos.response.JobAdvertisementResponseDto;
 
 import java.util.List;
 
 public interface JobAdvertisementService {
 
-    Result add(JobAdvertisement jobAdvertisement);
+    Result add(JobAdvertisementRequestDto jobAdvertisement);
 
-    DataResult<List<JobAdvertisementDto>> getAll();
+    DataResult<List<JobAdvertisementResponseDto>> getAll();
 
-    DataResult<List<JobAdvertisementDto>> getByJobStatus();
+    DataResult<List<JobAdvertisementResponseDto>> getByJobStatus();
 
-    DataResult<List<JobAdvertisementDto>> getByDate();
+    DataResult<List<JobAdvertisementResponseDto>> getByDate();
 
-    DataResult<List<JobAdvertisementDto>> getByCompanyName(String companyName);
+    DataResult<List<JobAdvertisementResponseDto>> getByCompanyName(String companyName);
 
-    DataResult<JobAdvertisementDto> getById(Integer id);
+    DataResult<JobAdvertisementResponseDto> getById(Integer id);
 
 }

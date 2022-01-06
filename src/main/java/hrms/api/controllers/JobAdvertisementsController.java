@@ -1,8 +1,7 @@
 package hrms.api.controllers;
 
 import hrms.business.abstracts.JobAdvertisementService;
-import hrms.entities.concretes.JobAdvertisement;
-import org.modelmapper.ModelMapper;
+import hrms.entities.dtos.request.JobAdvertisementRequestDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,15 +12,13 @@ import org.springframework.web.bind.annotation.*;
 public class JobAdvertisementsController {
 
     private final JobAdvertisementService jobAdvertisementService;
-    private final ModelMapper modelMapper;
 
-    public JobAdvertisementsController(JobAdvertisementService jobAdvertisementService, ModelMapper modelMapper) {
+    public JobAdvertisementsController(JobAdvertisementService jobAdvertisementService) {
         this.jobAdvertisementService = jobAdvertisementService;
-        this.modelMapper = modelMapper;
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody JobAdvertisement jobAdvertisement) {
+    public ResponseEntity<?> add(@RequestBody JobAdvertisementRequestDto jobAdvertisement) {
         return ResponseEntity.ok(this.jobAdvertisementService.add(jobAdvertisement));
     }
 
