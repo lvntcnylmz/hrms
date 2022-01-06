@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -45,7 +46,7 @@ public class JobAdvertisement {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "application_deadline")
-    private Date applicationDeadline;
+    private LocalDate applicationDeadline;
 
 //    @DateTimeFormat(iso = ISO.DATE)
 //    //@JsonFormat(pattern = "yyyy-MM-dd")
