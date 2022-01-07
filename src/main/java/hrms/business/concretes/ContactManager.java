@@ -1,6 +1,7 @@
 package hrms.business.concretes;
 
 import hrms.business.abstracts.ContactService;
+import hrms.core.utils.messages.Message;
 import hrms.core.utils.results.Result;
 import hrms.core.utils.results.SuccessDataResult;
 import hrms.dataAccess.abstracts.ContactDao;
@@ -18,7 +19,7 @@ public class ContactManager implements ContactService {
 
     @Override
     public Result add(Contact contact) {
-        return new SuccessDataResult<Contact>(this.contactDao.save(contact), "Contact information is saved.");
+        return new SuccessDataResult<Contact>(this.contactDao.save(contact), Message.SAVED);
     }
 
 }

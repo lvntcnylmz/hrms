@@ -4,6 +4,7 @@ import hrms.business.abstracts.UserService;
 import hrms.core.security.AppUserDetails;
 import hrms.core.security.jwt.JwtProperties;
 import hrms.core.security.jwt.JwtUtil;
+import hrms.core.utils.messages.Message;
 import hrms.core.utils.results.DataResult;
 import hrms.core.utils.results.Result;
 import hrms.core.utils.results.SuccessDataResult;
@@ -49,7 +50,7 @@ public class UserManager implements UserService, UserDetailsService {
         AppUserDetails userDetails = (AppUserDetails) loadUserByUsername(userLoginDto.getEmail());
 
         if (!this.passwordEncoder.matches(userLoginDto.getPassword(), userDetails.getPassword())) {
-            throw new IncorrectPasswordException("Invalid Password.");
+            throw new IncorrectPasswordException(Message.INVALID_PASSWORD);
         }
 
         this.authenticationManager.authenticate(
@@ -61,7 +62,7 @@ public class UserManager implements UserService, UserDetailsService {
         response.addHeader(JwtProperties.HEADER_STRING,
                 JwtProperties.TOKEN_PREFIX + token);
 
-        return new SuccessDataResult<>(token, "Login successful");
+        return new SuccessDataResult<>(token, Message.SUCCESSFUL_LOGIN);
     }
 
     @Override
@@ -71,13 +72,14 @@ public class UserManager implements UserService, UserDetailsService {
 
     @Override
     public DataResult<User> getById(Integer id) {
-        return new SuccessDataResult<User>(this.userDao.findById(id).orElseThrow());
+        return new SuccessDataResult<User>(this.userDao.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(Message.NOT_FOUND)));
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = this.userDao.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("User could not found by email."));
+                .orElseThrow(() -> new EntityNotFoundException(Message.EMAIL_NOT_FOUND));
 
         return new AppUserDetails(user);
     }

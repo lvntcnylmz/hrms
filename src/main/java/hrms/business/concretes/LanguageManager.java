@@ -1,6 +1,7 @@
 package hrms.business.concretes;
 
 import hrms.business.abstracts.LanguageService;
+import hrms.core.utils.messages.Message;
 import hrms.core.utils.results.Result;
 import hrms.core.utils.results.SuccessDataResult;
 import hrms.dataAccess.abstracts.LanguageDao;
@@ -18,7 +19,7 @@ public class LanguageManager implements LanguageService {
 
     @Override
     public Result add(Language language) {
-        return new SuccessDataResult<Language>(this.languageDao.save(language), "Language was saved.");
+        return new SuccessDataResult<Language>(this.languageDao.save(language), Message.SAVED);
     }
 
 }

@@ -1,6 +1,7 @@
 package hrms.business.concretes;
 
 import hrms.business.abstracts.ResumeService;
+import hrms.core.utils.messages.Message;
 import hrms.core.utils.results.DataResult;
 import hrms.core.utils.results.Result;
 import hrms.core.utils.results.SuccessDataResult;
@@ -29,7 +30,7 @@ public class ResumeManager implements ResumeService {
         Resume resumeRequest = this.modelMapper.map(resume, Resume.class);
         resumeRequest = this.resumeDao.save(resumeRequest);
         ResumeResponseDto resumeResponseDto = this.modelMapper.map(resumeRequest, ResumeResponseDto.class);
-        return new SuccessDataResult<>(resumeResponseDto, "Resume was saved.");
+        return new SuccessDataResult<>(resumeResponseDto, Message.SAVED);
     }
 
     @Override
@@ -40,7 +41,7 @@ public class ResumeManager implements ResumeService {
                 .map(resume -> this.modelMapper.map(resume, ResumeResponseDto.class))
                 .toList();
 
-        return new SuccessDataResult<>(resumes, "Resumes are listed.");
+        return new SuccessDataResult<>(resumes, Message.LISTED);
     }
 
 }

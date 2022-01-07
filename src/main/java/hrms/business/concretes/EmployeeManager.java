@@ -1,6 +1,7 @@
 package hrms.business.concretes;
 
 import hrms.business.abstracts.EmployeeService;
+import hrms.core.utils.messages.Message;
 import hrms.core.utils.results.DataResult;
 import hrms.core.utils.results.SuccessDataResult;
 import hrms.dataAccess.abstracts.EmployeeDao;
@@ -20,7 +21,7 @@ public class EmployeeManager implements EmployeeService {
 
     @Override
     public DataResult<List<Employee>> getAll() {
-        return new SuccessDataResult<List<Employee>>(this.employeeDao.findAll(), "Employees are listed.");
+        return new SuccessDataResult<List<Employee>>(this.employeeDao.findAll(), Message.LISTED);
     }
 
 }

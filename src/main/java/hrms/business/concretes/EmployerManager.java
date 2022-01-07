@@ -2,6 +2,7 @@ package hrms.business.concretes;
 
 import hrms.business.abstracts.EmployerService;
 import hrms.core.utils.businessRulesCheck.BusinessRules;
+import hrms.core.utils.messages.Message;
 import hrms.core.utils.results.*;
 import hrms.core.verifications.concretes.EmailVerification;
 import hrms.dataAccess.abstracts.EmployerDao;
@@ -58,16 +59,16 @@ public class EmployerManager implements EmployerService {
         this.employerDao.save(employerRequest);
         EmployerResponseDto employerResponse = this.modelMapper.map(employerRequest, EmployerResponseDto.class);
 
-        return new SuccessDataResult<>(employerResponse, "Employer information was saved.");
+        return new SuccessDataResult<>(employerResponse, Message.SAVED);
     }
 
     @Override
     public Result delete(Integer id) {
         if (this.employerDao.existsById(id)) {
             this.employerDao.delete(this.employerDao.getById(id));
-            return new SuccessResult("User deleted");
+            return new SuccessResult(Message.DELETED);
         }
-        throw new EntityNotFoundException("User not found by id");
+        throw new EntityNotFoundException(Message.NOT_FOUND);
     }
 
     @Override
@@ -78,16 +79,17 @@ public class EmployerManager implements EmployerService {
                 .map(employer -> this.modelMapper.map(employer, EmployerResponseDto.class))
                 .toList();
 
-        return new SuccessDataResult<>(employers, "Employers are listed.");
+        return new SuccessDataResult<>(employers, Message.LISTED);
     }
 
     @Override
     public DataResult<EmployerResponseDto> getById(Integer id) {
 
-        Employer employer = this.employerDao.findById(id).orElseThrow(() -> new EntityNotFoundException("Not Found by Id"));
+        Employer employer = this.employerDao.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(Message.NOT_FOUND));
         EmployerResponseDto employerResponse = this.modelMapper.map(employer, EmployerResponseDto.class);
 
-        return new SuccessDataResult<>(employerResponse, "Employer found by id.");
+        return new SuccessDataResult<>(employerResponse, Message.FOUND);
     }
 
     private Result checkIfEmailExists(String email) {
@@ -95,9 +97,9 @@ public class EmployerManager implements EmployerService {
         var result = this.employerDao.existsByEmailIgnoreCase(email);
 
         if (result) {
-            return new ErrorResult("Email already exists");
+            return new ErrorResult(Message.EMAIL_EXISTS);
         }
-        return new SuccessResult("Email valid.");
+        return new SuccessResult();
     }
 
     private Collection<Role> addRoleToEmployer() {

@@ -1,6 +1,7 @@
 package hrms.business.concretes;
 
 import hrms.business.abstracts.JobAdvertisementService;
+import hrms.core.utils.messages.Message;
 import hrms.core.utils.results.DataResult;
 import hrms.core.utils.results.Result;
 import hrms.core.utils.results.SuccessDataResult;
@@ -32,7 +33,7 @@ public class JobAdvertisementManager implements JobAdvertisementService {
         jobAdvertisementRequest = this.jobAdvertisementDao.save(jobAdvertisementRequest);
         JobAdvertisementResponseDto jobAdvertisementResponseDto = this.modelMapper.map(jobAdvertisementRequest, JobAdvertisementResponseDto.class);
 
-        return new SuccessDataResult<>(jobAdvertisementResponseDto, "Job advertisement was saved.");
+        return new SuccessDataResult<>(jobAdvertisementResponseDto, Message.SAVED);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class JobAdvertisementManager implements JobAdvertisementService {
                 .map(jobAdvertisement -> this.modelMapper.map(jobAdvertisement, JobAdvertisementResponseDto.class))
                 .toList();
 
-        return new SuccessDataResult<>(jobAdvertisementResponseDtos, "Job advertisements are listed.");
+        return new SuccessDataResult<>(jobAdvertisementResponseDtos, Message.LISTED);
     }
 
     @Override
@@ -53,7 +54,7 @@ public class JobAdvertisementManager implements JobAdvertisementService {
                 .stream()
                 .map(jobAdvertisement -> this.modelMapper.map(jobAdvertisement, JobAdvertisementResponseDto.class)).toList();
 
-        return new SuccessDataResult<>(jobAdvertisements, "Job advertisements are listed.");
+        return new SuccessDataResult<>(jobAdvertisements, Message.LISTED);
     }
 
     @Override
@@ -64,7 +65,7 @@ public class JobAdvertisementManager implements JobAdvertisementService {
                 .map(jobAdvertisement -> this.modelMapper.map(jobAdvertisement, JobAdvertisementResponseDto.class))
                 .toList();
 
-        return new SuccessDataResult<>(jobAdvertisements, "Job advertisements are listed.");
+        return new SuccessDataResult<>(jobAdvertisements, Message.LISTED);
     }
 
     @Override
@@ -75,16 +76,17 @@ public class JobAdvertisementManager implements JobAdvertisementService {
                 .map(jobAdvertisement -> this.modelMapper.map(jobAdvertisement, JobAdvertisementResponseDto.class))
                 .toList();
 
-        return new SuccessDataResult<>(jobAdvertisements, "Job advertisements are listed.");
+        return new SuccessDataResult<>(jobAdvertisements, Message.LISTED);
     }
 
     @Override
     public DataResult<JobAdvertisementResponseDto> getById(Integer id) {
 
-        JobAdvertisement jobAdvertisement = this.jobAdvertisementDao.findById(id).orElseThrow(() -> new EntityNotFoundException("Not found by Id"));
+        JobAdvertisement jobAdvertisement = this.jobAdvertisementDao.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(Message.NOT_FOUND));
         JobAdvertisementResponseDto jobAdvertisementResponseDto = this.modelMapper.map(jobAdvertisement, JobAdvertisementResponseDto.class);
 
-        return new SuccessDataResult<>(jobAdvertisementResponseDto, "Job advertisement found by Id.");
+        return new SuccessDataResult<>(jobAdvertisementResponseDto, Message.FOUND);
     }
 
 }

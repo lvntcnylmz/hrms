@@ -2,6 +2,7 @@ package hrms.business.concretes;
 
 import hrms.business.abstracts.JobSeekerService;
 import hrms.core.utils.businessRulesCheck.BusinessRules;
+import hrms.core.utils.messages.Message;
 import hrms.core.utils.results.DataResult;
 import hrms.core.utils.results.Result;
 import hrms.core.utils.results.SuccessDataResult;
@@ -64,16 +65,16 @@ public class JobSeekerManager implements JobSeekerService {
         jobSeekerRequest = this.jobSeekerDao.save(jobSeekerRequest);
         JobSeekerResponseDto jobSeekerResponse = this.modelMapper.map(jobSeekerRequest, JobSeekerResponseDto.class);
 
-        return new SuccessDataResult<>(jobSeekerResponse, "User information is valid. User was saved.");
+        return new SuccessDataResult<>(jobSeekerResponse, Message.SAVED);
     }
 
     @Override
     public Result delete(Integer id) {
         if (this.jobSeekerDao.existsById(id)) {
             this.jobSeekerDao.delete(this.jobSeekerDao.getById(id));
-            return new SuccessResult("User deleted");
+            return new SuccessResult(Message.DELETED);
         }
-        throw new EntityNotFoundException("User not found by id");
+        throw new EntityNotFoundException(Message.NOT_FOUND);
     }
 
     @Override
@@ -84,16 +85,17 @@ public class JobSeekerManager implements JobSeekerService {
                 .map(jobSeeker -> this.modelMapper.map(jobSeeker, JobSeekerResponseDto.class))
                 .toList();
 
-        return new SuccessDataResult<>(jobSeekers, "Candidates are listed.");
+        return new SuccessDataResult<>(jobSeekers, Message.LISTED);
     }
 
     @Override
     public DataResult<JobSeekerResponseDto> getById(Integer id) {
 
-        JobSeeker jobSeeker = this.jobSeekerDao.findById(id).orElseThrow(() -> new EntityNotFoundException("Not found by Id"));
+        JobSeeker jobSeeker = this.jobSeekerDao.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(Message.NOT_FOUND));
         JobSeekerResponseDto jobSeekerResponseDto = this.modelMapper.map(jobSeeker, JobSeekerResponseDto.class);
 
-        return new SuccessDataResult<>(jobSeekerResponseDto, "Job Seeker found by id.");
+        return new SuccessDataResult<>(jobSeekerResponseDto, Message.FOUND);
     }
 
     private Result checkIfNationalIdAlreadyExists(JobSeeker jobSeeker) {
@@ -101,7 +103,7 @@ public class JobSeekerManager implements JobSeekerService {
         var result = this.jobSeekerDao.existsJobSeekerByNationalId(jobSeeker.getNationalId());
 
         if (result) {
-            throw new NationalIdAlreadyExistsException("National-ID already exists.");
+            throw new NationalIdAlreadyExistsException(Message.NATIONAL_ID_EXISTS);
         }
         return new SuccessResult();
     }
@@ -110,7 +112,7 @@ public class JobSeekerManager implements JobSeekerService {
         var result = this.jobSeekerDao.existsJobSeekerByEmail(jobSeeker.getEmail());
 
         if (result) {
-            throw new EmailAlreadyExistsException("Email already exists.");
+            throw new EmailAlreadyExistsException(Message.EMAIL_EXISTS);
         }
         return new SuccessResult();
     }
