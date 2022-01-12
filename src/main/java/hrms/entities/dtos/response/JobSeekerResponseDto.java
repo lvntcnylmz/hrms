@@ -1,6 +1,6 @@
 package hrms.entities.dtos.response;
 
-import hrms.entities.concretes.Resume;
+//import hrms.entities.concretes.Resume;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class JobSeekerResponseDto {
 
-    private String userId;
+    private Integer userId;
     private String email;
     private String firstName;
     private String lastName;

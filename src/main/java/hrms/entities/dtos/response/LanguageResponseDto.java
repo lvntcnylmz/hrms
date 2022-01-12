@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class LanguageResponseDto {
 
     private String languageName;
-    private String level;
+    private Integer level;
 
 }

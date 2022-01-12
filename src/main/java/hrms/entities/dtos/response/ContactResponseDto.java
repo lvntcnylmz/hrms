@@ -11,5 +11,8 @@ public class ContactResponseDto {
 
     private String githubLink;
     private String linkedinLink;
+    private String instagramLink;
+    private String twitterLink;
+    private String facebookLink;
 
 }
