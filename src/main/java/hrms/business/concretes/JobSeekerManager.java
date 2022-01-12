@@ -10,6 +10,7 @@ import hrms.core.utils.results.SuccessResult;
 import hrms.core.verifications.abstracts.MernisVerificationService;
 import hrms.dataAccess.abstracts.JobSeekerDao;
 import hrms.dataAccess.abstracts.RoleDao;
+import hrms.entities.concretes.Contact;
 import hrms.entities.concretes.JobSeeker;
 import hrms.entities.concretes.Role;
 import hrms.entities.dtos.request.JobSeekerRegisterDto;
