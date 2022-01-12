@@ -2,6 +2,7 @@ package hrms.business.abstracts;
 
 import hrms.core.utils.results.DataResult;
 import hrms.core.utils.results.Result;
+import hrms.entities.concretes.Contact;
 import hrms.entities.dtos.request.JobSeekerRegisterDto;
 import hrms.entities.dtos.response.JobSeekerResponseDto;
 
