@@ -1,5 +1,6 @@
 package hrms.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,5 +35,10 @@ public class JobExperience {
 
     @Column(name = "end_date")
     private LocalDate endDate;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private JobSeeker jobSeeker;
 
 }
