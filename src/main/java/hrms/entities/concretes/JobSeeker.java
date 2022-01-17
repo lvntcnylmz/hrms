@@ -4,7 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -32,9 +35,5 @@ public class JobSeeker extends User {
     @NotNull(message = "Date of birth cannot be empty. e.g.: 2004")
     @Column
     private String dateOfBirth;
-
-    @OneToOne
-    @JoinColumn(name = "resume_id")
-    private Resume resume;
 
 }
