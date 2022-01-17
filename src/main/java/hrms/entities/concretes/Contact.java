@@ -1,5 +1,6 @@
 package hrms.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,5 +24,19 @@ public class Contact {
 
     @Column(name = "linkedin_link")
     private String linkedinLink;
+
+    @Column(name = "instagram_link")
+    private String instagramLink;
+
+    @Column(name = "facebook_link")
+    private String facebookLink;
+
+    @Column(name = "twitter_link")
+    private String twitterLink;
+
+    @JsonIgnore
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private JobSeeker jobSeeker;
 
 }
