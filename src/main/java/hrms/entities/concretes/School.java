@@ -1,5 +1,6 @@
 package hrms.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,7 @@ public class School {
     @Column(name = "school_name")
     private String schoolName;
 
-    @Column(name = "departmant_name")
+    @Column(name = "department_name")
     private String departmentName;
 
     @Column(name = "start_date")
@@ -33,5 +34,10 @@ public class School {
 
     @Column(name = "is_graduated")
     private boolean isGraduated;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private JobSeeker jobSeeker;
 
 }

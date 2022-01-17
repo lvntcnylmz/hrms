@@ -1,5 +1,6 @@
 package hrms.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,5 +29,10 @@ public class Language {
     @Range(min = 1, max = 5)
     @Column(name = "level")
     private int level;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private JobSeeker jobSeeker;
 
 }
