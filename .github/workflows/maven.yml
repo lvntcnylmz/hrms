@@ -22,7 +22,7 @@ jobs:
           POSTGRES_PASSWORD: password
           POSTGRES_DB: hrms
           POSTGRES_HOST: postgres
-          POSTGRES_PORT: 5432
+          POSTGRES_PORT: 5433
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -30,7 +30,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Set up JDK 11
+      - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
           java-version: '17'
