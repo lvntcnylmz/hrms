@@ -1,6 +1,3 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
-
 name: Java CI with Maven
 
 on:
@@ -14,20 +11,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: hrms
-          POSTGRES_HOST: postgres
-          POSTGRES_PORT: 5433
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 17
@@ -37,6 +20,14 @@ jobs:
           distribution: 'temurin'
           architecture: x64
           cache: maven
+
+      - uses: Harmon758/postgresql-action@v1.0.0
+      - name: Setup PostgreSQL
+        with:
+          postgresql version: 14
+          postgresql db: hrms
+          postgresql user: postgres
+          postgresql password: password
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml
