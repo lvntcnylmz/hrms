@@ -21,12 +21,15 @@ jobs:
           architecture: x64
           cache: maven
 
-      - uses: Harmon758/postgresql-action@v1.0.0
       - name: Setup PostgreSQL
+       - uses: Harmon758/postgresql-action@v1.0.0
         with:
           postgresql version: 14
+
           postgresql db: hrms
+
           postgresql user: postgres
+
           postgresql password: password
 
       - name: Build with Maven
