@@ -11,6 +11,21 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: hrms
+        ports:
+          - 5433:5433
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 17
@@ -20,17 +35,6 @@ jobs:
           distribution: 'temurin'
           architecture: x64
           cache: maven
-
-      - name: Setup PostgreSQL
-        uses: Harmon758/postgresql-action@v1.0.0
-        with:
-          postgresql version: 14
-
-          postgresql db: hrms
-
-          postgresql user: postgres
-
-          postgresql password: password
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml
